@@ -81,5 +81,7 @@ function displayTranslation(data) {
 function playAudio(pronunciationId) {
     // Assuming there's an API endpoint to fetch and play audio by pronunciation ID
     const audio = new Audio(`/play?id=${pronunciationId}`);
+    audio.preload = "auto";  // Preload the audio
+    audio.load();  // Ensure it's loaded
     audio.play();
 }
