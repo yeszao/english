@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    env_file:
+      - local.env
+    ports:
+      - "5006:8000"
