@@ -51,14 +51,18 @@ function displayTranslation(data) {
     // Word and pronunciation section
     const wordSection = document.createElement('div');
     wordSection.innerHTML = `<h3>${data.word}</h3>`;
+    contentDiv.appendChild(wordSection);
 
     const pronunciationSection = document.createElement('div');
-    pronunciationSection.innerHTML = `
-    <button class="btn btn-secondary" onclick="playAudio('${data.pronunciations.find(p => p.accent === 'UK').id}')">UK Voice</button>
-    <button class="btn btn-secondary" onclick="playAudio('${data.pronunciations.find(p => p.accent === 'US').id}')">US Voice</button>
-  `;
-
-    contentDiv.appendChild(wordSection);
+    data.pronunciations.forEach(pronunciation => {
+        if (pronunciation.hasAudio) {
+            const button = document.createElement('button');
+            button.classList.add('btn', 'btn-outline-secondary', 'me-2', 'btn-sm');
+            button.textContent = `${pronunciation.accent} ${pronunciation.pronunciation}`;
+            button.onclick = () => playAudio(pronunciation.id);
+            pronunciationSection.appendChild(button);
+        }
+    });
     contentDiv.appendChild(pronunciationSection);
 
     // Group translations by posTag
