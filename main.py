@@ -1,5 +1,6 @@
 from pathlib import Path
-
+import re
+from bs4 import BeautifulSoup
 import requests
 from flask import Flask, render_template, jsonify, request, url_for
 
@@ -28,7 +29,7 @@ def chapter(book_name: str, chapter_num: str):
                            book_name=book_name,
                            prev_chapter_url=get_chapter_url(book_name, prev_chapter) if prev_chapter >= 0 else None,
                            next_chapter_url=get_chapter_url(book_name, next_chapter) if next_chapter <= 9 else None,
-                           content=content)
+                           content=transfer_text(content))
 
 
 @app.get('/translate')
@@ -65,6 +66,28 @@ def play():
     response = requests.get(headers=headers, url=AUDIO_ENDPOINT, params=params)
 
     return response.content
+
+
+def transfer_text(input_html: str):
+    def wrap_words(text):
+        # Use regex to split by words and punctuation, keeping them separate
+        tokens = re.findall(r"\w+|[^\w\s]|\s+", text, re.UNICODE)
+
+        # Wrap each word in <span class="word">
+        wrapped = ''.join([f'<span class="word">{token}</span>' if re.match(r"\w+", token) else token for token in tokens])
+
+        return wrapped
+
+    # Parse the HTML with BeautifulSoup
+    soup = BeautifulSoup(input_html, 'html.parser')
+
+    # Iterate over each paragraph or text-containing tag
+    for tag in soup.find_all(['p', 'span']):
+        # Replace the content of each tag with the wrapped version
+        if tag.string:
+            tag.string.replace_with(BeautifulSoup(wrap_words(tag.string), 'html.parser'))
+
+    return str(soup)
 
 
 if __name__ == '__main__':
