@@ -46,11 +46,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 <script>
-    captureWordOnClick(document.getElementById('chapter-content'), function (word) {
-        const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('offcanvasTranslation'));
-        offcanvas.show();
-        fetchTranslation(word);
-    });
+    var words = document.getElementsByClassName('word');
+    for (var i = 0; i < words.length; i++) {
+        words[i].addEventListener('click', function () {
+            const offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasTranslation'));
+            offcanvas.show();
+            fetchTranslation(this.innerText);
+        });
+    }
+
 </script>
 </body>
 </html>
