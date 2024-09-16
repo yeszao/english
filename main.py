@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import requests
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, url_for
 
 from config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT
 
@@ -11,14 +11,24 @@ books_dir = Path('books')
 
 @app.get('/')
 def home():
+    return render_template('home.html', book_name='the-great-gatsby')
 
-    return render_template('home.html')
+
+def get_chapter_url(book_name: str, chapter_num: int) -> str:
+    return url_for('chapter', book_name=book_name, chapter_num=str(chapter_num).zfill(2))
 
 
-@app.get('/<book_name>/<chapter_file>')
-def chapter(book_name: str, chapter_file: str):
-    content = books_dir.joinpath(book_name).joinpath(chapter_file).read_text()
-    return render_template('chapter.html', content=content)
+@app.get('/book/<book_name>/chapter-<chapter_num>.html')
+def chapter(book_name: str, chapter_num: str):
+    prev_chapter = int(chapter_num) - 1
+    next_chapter = int(chapter_num) + 1
+    chapter_file_name = f'chapter-{chapter_num}.html'
+    content = books_dir.joinpath(book_name).joinpath(chapter_file_name).read_text()
+    return render_template('chapter.html',
+                           book_name=book_name,
+                           prev_chapter_url=get_chapter_url(book_name, prev_chapter) if prev_chapter >= 0 else None,
+                           next_chapter_url=get_chapter_url(book_name, next_chapter) if next_chapter <= 9 else None,
+                           content=content)
 
 
 @app.get('/translate')

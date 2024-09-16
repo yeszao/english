@@ -19,6 +19,17 @@
     {{ content|safe }}
 </div>
 
+<div class="container my-5 d-flex justify-content-center" style="max-width: 640px;">
+    {% if prev_chapter_url %}
+    <a href="{{ prev_chapter_url }}" class="btn btn-primary">Prev</a>
+    {% endif %}
+
+    <span class="d-block mx-3"></span>
+
+    {% if next_chapter_url %}
+    <a href="{{ next_chapter_url }}" class="btn btn-primary">Next</a>
+    {% endif %}
+</div>
 
 <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasTranslation" aria-labelledby="offcanvasLabel">
     <div class="offcanvas-header">
