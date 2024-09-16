@@ -73,7 +73,7 @@ function displayTranslation(data) {
     // Render grouped translations
     Object.keys(groupedTranslations).forEach(posTag => {
         const groupSection = document.createElement('div');
-        groupSection.innerHTML = `<h5>${posTag}</h5><p>${groupedTranslations[posTag].join(', ')}</p>`;
+        groupSection.innerHTML = `<p class="my-1"><span class="me-3 text-muted small">${posTag}.</span>${groupedTranslations[posTag].join(', ')}</p>`;
         contentDiv.appendChild(groupSection);
     });
 }
