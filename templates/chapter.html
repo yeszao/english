@@ -57,8 +57,8 @@
     var offcanvasInstance = new bootstrap.Offcanvas(offcanvasEl);
 
     for (var i = 0; i < words.length; i++) {
-        words[i].addEventListener('click', function () {
-            offcanvasTitleEl.innerText = 'Searching...';
+        words[i].addEventListener('dblclick', function () {
+            offcanvasTitleEl.innerHTML = 'Searching...';
             offcanvasInstance.show();
             fetchTranslation(offcanvasTitleEl, translationContentEl, this.innerText);
         });
@@ -67,14 +67,55 @@
     document.addEventListener('DOMContentLoaded', function() {
         initFontAndDarkButtons();
     });
-    /*
+
     var ps = document.getElementsByClassName("sentence");
     Array.from(ps).forEach(function(p) {
         p.addEventListener('click', function(event) {
-            event.currentTarget.classList.toggle('bg-black');
-            console.log("clicked");
+            offcanvasTitleEl.innerHTML = '';
+            const titleDiv = document.createElement('div');
+            titleDiv.classList.add('d-flex', 'justify-content-center');
+
+            const button = document.createElement('button');
+            button.innerText = 'Translate';
+            button.classList.add("btn", "btn-sm", "btn-outline-secondary", "me-2");
+            titleDiv.appendChild(button);
+
+            offcanvasTitleEl.appendChild(titleDiv);
+
+            var englishText = event.currentTarget.innerText;
+            translationContentEl.innerHTML = englishText
+            offcanvasInstance.show();
+
+            button.addEventListener('click', function() {
+
+                textTranslate(button, translationContentEl, englishText);
+
+            });
         });
-    });*/
+    });
+
+    async function textTranslate(button, translationContentEl,  text) {
+        button.innerText = 'Translating...';
+        button.disabled = true;
+        translationContentEl.innerHTML = '';
+        try {
+            // Assuming you have an API endpoint that provides the translation
+            const response = await fetch(`/translate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: text })
+            });
+            const data = await response.json();
+            translationContentEl.innerText = data.translation;
+        } catch (error) {
+            alert("Failed to fetch translation")
+        } finally {
+            button.innerText = 'Translate';
+            button.disabled = false;
+        }
+    }
 </script>
 </body>
 </html>

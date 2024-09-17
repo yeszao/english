@@ -4,6 +4,7 @@ from flask import Flask, render_template, jsonify, request, url_for, Response, s
 
 from config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT
 from lib.utils.chapter_utils import transfer_text
+from lib.utils.openai_translator_utils import ChatGptTranslator
 
 app = Flask(__name__)
 books_dir = Path('books')
@@ -40,8 +41,8 @@ def chapter(book_name: str, chapter_num: str):
                            content=tagged_content)
 
 
-@app.get('/translate')
-def translate():
+@app.get('/dictionary')
+def dictionary():
     from_lang = request.args.get('from_lang')
     to_lang = request.args.get('to_lang')
     text = request.args.get('text')
@@ -58,6 +59,18 @@ def translate():
     response = requests.get(headers=headers, url=DICT_ENDPOINT, params=params)
 
     return jsonify(response.json())
+
+
+@app.post('/translate')
+def translate():
+    book_name = request.json.get('book_name', 'The Great Gatsby')
+    to_lang = request.json.get('to_lang', 'zh-cn')
+    text = request.json.get('text')
+
+    translator = ChatGptTranslator(book_name)
+
+    translation = translator.translate(text, to_lang)
+    return jsonify({'translation': translation})
 
 
 @app.get('/play')

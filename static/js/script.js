@@ -37,11 +37,11 @@ async function fetchTranslation(offcanvasTitleEl, translationContentEl,  word) {
     translationContentEl.innerHTML = '';
     try {
         // Assuming you have an API endpoint that provides the translation
-        const response = await fetch(`/translate?from_lang=en&to_lang=zh-Hans&text=${word}`);
+        const response = await fetch(`/dictionary?from_lang=en&to_lang=zh-Hans&text=${word}`);
         const data = await response.json();
         displayTranslation(offcanvasTitleEl, translationContentEl, data);
     } catch (error) {
-        console.error('Error fetching translation:', error);
+        alert("Failed to fetch translation")
     }
 }
 
