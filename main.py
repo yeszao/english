@@ -7,6 +7,7 @@ from lib.utils.chapter_utils import transfer_text
 
 app = Flask(__name__)
 books_dir = Path('books')
+cache_dir = Path('cache')
 
 
 @app.get('/')
@@ -23,12 +24,20 @@ def chapter(book_name: str, chapter_num: str):
     prev_chapter = int(chapter_num) - 1
     next_chapter = int(chapter_num) + 1
     chapter_file_name = f'chapter-{chapter_num}.html'
-    content = books_dir.joinpath(book_name).joinpath(chapter_file_name).read_text()
+    cache_file = cache_dir.joinpath(book_name).joinpath(chapter_file_name)
+    if not cache_file.exists():
+        content = books_dir.joinpath(book_name).joinpath(chapter_file_name).read_text()
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+        tagged_content = transfer_text(content)
+        cache_file.write_text(tagged_content)
+    else:
+        tagged_content = cache_file.read_text()
+
     return render_template('chapter.html',
                            book_name=book_name,
                            prev_chapter_url=get_chapter_url(book_name, prev_chapter) if prev_chapter >= 0 else None,
                            next_chapter_url=get_chapter_url(book_name, next_chapter) if next_chapter <= 9 else None,
-                           content=transfer_text(content))
+                           content=tagged_content)
 
 
 @app.get('/translate')

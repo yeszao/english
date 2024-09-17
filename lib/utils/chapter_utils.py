@@ -41,6 +41,6 @@ def transfer_text(input_html: str):
             for s in sentences:
                 new_sentences.append(f'<span class="sentence">{wrap_words(s)}</span> ')
 
-            tag.string.replace_with(BeautifulSoup(''.join(new_sentences), 'html.parser'))
+            tag.string.replace_with(BeautifulSoup(' '.join(new_sentences), 'html.parser'))
 
     return str(soup)
