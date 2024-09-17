@@ -83,18 +83,19 @@ function playAudio(pronunciationId) {
     audio.play();
 }
 
+function batchAction(inputList, action) {
+    Array.from(inputList).forEach(item => action(item));
+}
+
 function initFontAndDarkButtons() {
     // Get stored values from localStorage
     let fontSize = localStorage.getItem('fontSize') || '16px';
     let darkMode = localStorage.getItem('darkMode') || 'light';
 
-    const offcanvasTranslation = document.getElementById('offcanvasTranslation');
-
     // Apply initial values
     document.body.style.fontSize = fontSize;
     if (darkMode === 'dark') {
         document.body.classList.add('bg-dark', 'text-light');
-        offcanvasTranslation.classList.toggle('text-bg-dark');
     }
 
     // Button elements
@@ -122,7 +123,6 @@ function initFontAndDarkButtons() {
     toggleDarkModeBtn.addEventListener('click', () => {
         document.body.classList.toggle('bg-dark');
         document.body.classList.toggle('text-light');
-        offcanvasTranslation.classList.toggle('text-bg-dark');
         darkMode = document.body.classList.contains('bg-dark') ? 'dark' : 'light';
         localStorage.setItem('darkMode', darkMode);
     });

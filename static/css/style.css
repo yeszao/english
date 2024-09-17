@@ -1,0 +1,23 @@
+:root {
+    --bs-light-rgb: 180, 180, 180;
+}
+
+.bg-dark .card,
+.bg-dark .card-body,
+.bg-dark .list-group-item,
+.bg-dark .offcanvas,
+.bg-dark .offcanvas-header,
+.bg-dark .offcanvas-body
+{
+    background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.text-light h1,
+.text-light card,
+.text-light .offcanvas-header,
+.text-light .offcanvas-body {
+    color: var(--bs-light-rgb) !important;
+}
+
+.box {max-width: 640px;}
+h2 {text-align: center;}
