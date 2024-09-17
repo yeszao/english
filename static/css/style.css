@@ -21,3 +21,7 @@
 
 .box {max-width: 640px;}
 h2 {text-align: center;}
+
+.more {
+    color: var(--bs-light-rgb);
+}

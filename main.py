@@ -1,10 +1,9 @@
 from pathlib import Path
-import re
-from bs4 import BeautifulSoup
 import requests
 from flask import Flask, render_template, jsonify, request, url_for, Response, stream_with_context
 
 from config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT
+from lib.utils.chapter_utils import transfer_text
 
 app = Flask(__name__)
 books_dir = Path('books')
@@ -74,28 +73,6 @@ def play():
 
     # Serve the M4A file directly from memory
     return Response(stream_with_context(generate()), content_type='audio/mp3')
-
-
-def transfer_text(input_html: str):
-    def wrap_words(text):
-        # Use regex to split by words and punctuation, keeping them separate
-        tokens = re.findall(r"\w+|[^\w\s]|\s+", text, re.UNICODE)
-
-        # Wrap each word in <span class="word">
-        wrapped = ''.join([f'<span class="word">{token}</span>' if re.match(r"\w+", token) else token for token in tokens])
-
-        return wrapped
-
-    # Parse the HTML with BeautifulSoup
-    soup = BeautifulSoup(input_html, 'html.parser')
-
-    # Iterate over each paragraph or text-containing tag
-    for tag in soup.find_all(['p', 'span']):
-        # Replace the content of each tag with the wrapped version
-        if tag.string:
-            tag.string.replace_with(BeautifulSoup(wrap_words(tag.string), 'html.parser'))
-
-    return str(soup)
 
 
 if __name__ == '__main__':
