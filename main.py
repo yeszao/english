@@ -68,6 +68,7 @@ def translate():
     text = request.json.get('text')
 
     translator = ChatGptTranslator(book_name)
+    # todo: cache translation
 
     translation = translator.translate(text, to_lang)
     return jsonify({'translation': translation})
