@@ -1,8 +1,12 @@
+import io
+import os
+import tempfile
 from pathlib import Path
 import re
 from bs4 import BeautifulSoup
 import requests
-from flask import Flask, render_template, jsonify, request, url_for
+from flask import Flask, render_template, jsonify, request, url_for, send_file
+from pydub import AudioSegment
 
 from config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT
 
@@ -65,7 +69,21 @@ def play():
     }
     response = requests.get(headers=headers, url=AUDIO_ENDPOINT, params=params)
 
-    return response.content
+    # Check if the response is valid and contains MP3 data
+    if response.status_code != 200:
+        return "Audio file not found", 404
+
+    # Convert the MP3 content to a file-like object
+    mp3_audio = io.BytesIO(response.content)
+    audio = AudioSegment.from_mp3(mp3_audio)
+    m4a_buffer = io.BytesIO()
+    audio.export(m4a_buffer, format="mp4")
+
+    # Seek to the beginning of the buffer so it can be read
+    m4a_buffer.seek(0)
+
+    # Serve the M4A file directly from memory
+    return send_file(m4a_buffer, mimetype='audio/mp4', as_attachment=False, download_name="audio.m4a")
 
 
 def transfer_text(input_html: str):

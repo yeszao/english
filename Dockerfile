@@ -1,5 +1,9 @@
 FROM python:3.11-slim
 
+RUN apt-get update  \
+    && apt-get install -y --no-install-recommends ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
 ARG WORK_SPACE=/workspace
 WORKDIR ${WORK_SPACE}
 ENV PYTHONUNBUFFERED=1
