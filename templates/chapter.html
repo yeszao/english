@@ -57,7 +57,7 @@
     var offcanvasInstance = new bootstrap.Offcanvas(offcanvasEl);
 
     for (var i = 0; i < words.length; i++) {
-        words[i].addEventListener('dblclick', function () {
+        words[i].addEventListener('click', function () {
             offcanvasTitleEl.innerHTML = 'Searching...';
             offcanvasInstance.show();
             fetchTranslation(offcanvasTitleEl, translationContentEl, this.innerText);
@@ -68,9 +68,10 @@
         initFontAndDarkButtons();
     });
 
-    var ps = document.getElementsByClassName("sentence");
-    Array.from(ps).forEach(function(p) {
+    var mores = document.getElementsByClassName("more");
+    Array.from(mores).forEach(function(p) {
         p.addEventListener('click', function(event) {
+            var sentenceEl = event.currentTarget.parentElement;
             offcanvasTitleEl.innerHTML = '';
             const titleDiv = document.createElement('div');
             titleDiv.classList.add('d-flex', 'justify-content-center');
@@ -82,7 +83,7 @@
 
             offcanvasTitleEl.appendChild(titleDiv);
 
-            var englishText = event.currentTarget.innerText;
+            var englishText = sentenceEl.innerText;
             translationContentEl.innerHTML = englishText
             offcanvasInstance.show();
 

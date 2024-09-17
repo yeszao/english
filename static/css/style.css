@@ -24,4 +24,8 @@ h2 {text-align: center;}
 
 .more {
     color: var(--bs-light-rgb);
+    width: 16px; height: 16px;
+}
+.more:before {
+    content: "🔍";
 }
