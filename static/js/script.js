@@ -82,3 +82,48 @@ function playAudio(pronunciationId) {
     const audio = new Audio(`/play?id=${pronunciationId}`);
     audio.play();
 }
+
+function initFontAndDarkButtons() {
+    // Get stored values from localStorage
+    let fontSize = localStorage.getItem('fontSize') || '16px';
+    let darkMode = localStorage.getItem('darkMode') || 'light';
+
+    const offcanvasTranslation = document.getElementById('offcanvasTranslation');
+
+    // Apply initial values
+    document.body.style.fontSize = fontSize;
+    if (darkMode === 'dark') {
+        document.body.classList.add('bg-dark', 'text-light');
+        offcanvasTranslation.classList.toggle('text-bg-dark');
+    }
+
+    // Button elements
+    const decreaseFontBtn = document.getElementById('decreaseFont');
+    const increaseFontBtn = document.getElementById('increaseFont');
+    const toggleDarkModeBtn = document.getElementById('toggleDarkMode');
+
+    // Decrease font size
+    decreaseFontBtn.addEventListener('click', () => {
+        let currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+        let newSize = currentSize - 1;
+        document.body.style.fontSize = newSize + 'px';
+        localStorage.setItem('fontSize', newSize + 'px');
+    });
+
+    // Increase font size
+    increaseFontBtn.addEventListener('click', () => {
+        let currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+        let newSize = currentSize + 1;
+        document.body.style.fontSize = newSize + 'px';
+        localStorage.setItem('fontSize', newSize + 'px');
+    });
+
+    // Toggle dark mode
+    toggleDarkModeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('bg-dark');
+        document.body.classList.toggle('text-light');
+        offcanvasTranslation.classList.toggle('text-bg-dark');
+        darkMode = document.body.classList.contains('bg-dark') ? 'dark' : 'light';
+        localStorage.setItem('darkMode', darkMode);
+    });
+}
