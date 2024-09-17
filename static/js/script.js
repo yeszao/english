@@ -33,32 +33,27 @@ var captureWordOnClick = function(containerEl, callback) {
 };
 
 
-async function fetchTranslation(word) {
+async function fetchTranslation(offcanvasTitleEl, translationContentEl,  word) {
+    translationContentEl.innerHTML = '';
     try {
         // Assuming you have an API endpoint that provides the translation
         const response = await fetch(`/translate?from_lang=en&to_lang=zh-Hans&text=${word}`);
         const data = await response.json();
-        displayTranslation(data);
+        displayTranslation(offcanvasTitleEl, translationContentEl, data);
     } catch (error) {
         console.error('Error fetching translation:', error);
     }
 }
 
-function displayTranslation(data) {
-    const contentDiv = document.getElementById('translationContent');
-    contentDiv.innerHTML = '';
-
-    // Word and pronunciation section
-    const wordSection = document.createElement('div');
-    wordSection.innerHTML = `<h3>${data.word}</h3>`;
-    contentDiv.appendChild(wordSection);
+function displayTranslation(offcanvasTitleEl, contentDiv, data) {
+    offcanvasTitleEl.innerText = `${data.word}`;
 
     const pronunciationSection = document.createElement('div');
     data.pronunciations.forEach(pronunciation => {
         if (pronunciation.hasAudio) {
             const button = document.createElement('button');
-            button.classList.add('btn', 'btn-outline-secondary', 'me-2', 'btn-sm');
-            button.textContent = `${pronunciation.accent} ${pronunciation.pronunciation}`;
+            button.classList.add('btn', 'btn-outline-secondary', 'me-2', 'btn-sm', 'mb-2');
+            button.innerHTML = `${pronunciation.accent} ${pronunciation.pronunciation} ၊၊||၊`;
             button.onclick = () => playAudio(pronunciation.id);
             pronunciationSection.appendChild(button);
         }
