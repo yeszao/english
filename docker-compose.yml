@@ -1,6 +1,8 @@
 services:
   web:
     build: .
+    volumes:
+      - cache:/workspace/cache
     env_file:
       - local.env
     ports:
