@@ -23,9 +23,20 @@
 h2 {text-align: center;}
 
 .more {
-    color: var(--bs-light-rgb);
-    width: 16px; height: 16px;
+    text-align: center;
+    cursor: pointer;
+    font-style: normal;
+    display: inline-block;
+    font-size: 1rem;
+    border: 1px solid #8c959d;
+    color: #8c959d;
+    font-weight: 200;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    margin-right: 0.85rem !important;
 }
-.more:before {
-    content: "🔍";
+
+.bg-dark .more {
+    border-color: #6c757d;
+    color: #6c757d;
 }

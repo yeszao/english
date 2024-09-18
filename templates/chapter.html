@@ -67,6 +67,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         initFontAndDarkButtons();
+        loadMoreNumber();
     });
 
     var mores = document.getElementsByClassName("more");
@@ -85,7 +86,7 @@
 
             offcanvasTitleEl.appendChild(titleDiv);
 
-            translationContentEl.innerHTML = sentenceEl.innerText;
+            translationContentEl.innerHTML = sentenceEl.innerHTML;
             offcanvasInstance.show();
 
             button.addEventListener('click', function() {
@@ -115,6 +116,12 @@
             button.innerText = 'Translate';
             button.disabled = false;
         }
+    }
+
+    function loadMoreNumber() {
+        Array.from(document.getElementsByClassName('more')).forEach(function (more) {
+            more.innerText = more.getAttribute('data-no');
+        });
     }
 </script>
 </body>
