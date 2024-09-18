@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "The Great Gatsby",
+    "slug": "the-great-gatsby",
+    "author": "F. Scott Fitzgerald",
+    "chapter_number": 9,
+    "description": "The Great Gatsby is a novel by American author F. Scott Fitzgerald. The book was first published in 1925, and it has been republished in 1945 and 1953. The Great Gatsby is a novel about the American Dream, and the book is set in the 1920s."
+  },
+  {
+    "id": 2,
+    "name": "Animal Farm",
+    "slug": "animal-farm",
+    "author": "George Orwell",
+    "chapter_number": 10,
+    "description": "Animal Farm is a novel about a group of farm animals who rebel against their human farmer, and the book is a satire of the Russian Revolution."
+  }
+]

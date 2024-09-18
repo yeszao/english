@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<div class="container box mt-5 mb-4" id="chapter-main" data-chapter-no="{{ chapter_no }}">
+<div class="container box mt-5 mb-4" id="chapter-main" data-chapter-no="{{ chapter_no }}" data-book-id="{{ book.id }}">
     {{ content|safe }}
 </div>
 
@@ -56,6 +56,7 @@
     var translationContentEl = document.getElementById('translationContent');
     var offcanvasInstance = new bootstrap.Offcanvas(offcanvasEl);
     var chapterNo = document.getElementById('chapter-main').getAttribute('data-chapter-no');
+    var bookId = document.getElementById('chapter-main').getAttribute('data-book-id');
 
     for (var i = 0; i < words.length; i++) {
         words[i].addEventListener('click', function () {
@@ -106,7 +107,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ chapter_no: chapterNo, sentence_no: sentenceNo})
+                body: JSON.stringify({ book_id: bookId, chapter_no: chapterNo, sentence_no: sentenceNo})
             });
             const data = await response.json();
             translationContentEl.innerText = data.translation;
