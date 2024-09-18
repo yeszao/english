@@ -29,7 +29,7 @@ def tagged_html(input_html: str) -> (str, List[str]):
 
 def process_tag(tag, sentence_no) -> (int, List[str]):
     raw_sentences = []
-    plain_text = tag.get_text(strip=True)
+    plain_text = tag.get_text().strip()
     if plain_text.strip() == '':
         return sentence_no, raw_sentences
 
