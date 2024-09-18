@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<div class="container box mt-5 mb-4">
+<div class="container box mt-5 mb-4" id="chapter-main" data-chapter-no="{{ chapter_no }}">
     {{ content|safe }}
 </div>
 
@@ -55,6 +55,7 @@
     var offcanvasEl = document.getElementById('offcanvasTranslation');
     var translationContentEl = document.getElementById('translationContent');
     var offcanvasInstance = new bootstrap.Offcanvas(offcanvasEl);
+    var chapterNo = document.getElementById('chapter-main').getAttribute('data-chapter-no');
 
     for (var i = 0; i < words.length; i++) {
         words[i].addEventListener('click', function () {
@@ -72,6 +73,7 @@
     Array.from(mores).forEach(function(p) {
         p.addEventListener('click', function(event) {
             var sentenceEl = event.currentTarget.parentElement;
+            var sentenceNo = event.currentTarget.getAttribute('data-no');
             offcanvasTitleEl.innerHTML = '';
             const titleDiv = document.createElement('div');
             titleDiv.classList.add('d-flex', 'justify-content-center');
@@ -83,19 +85,16 @@
 
             offcanvasTitleEl.appendChild(titleDiv);
 
-            var englishText = sentenceEl.innerText;
-            translationContentEl.innerHTML = englishText
+            translationContentEl.innerHTML = sentenceEl.innerText;
             offcanvasInstance.show();
 
             button.addEventListener('click', function() {
-
-                textTranslate(button, translationContentEl, englishText);
-
+                textTranslate(button, sentenceNo, translationContentEl);
             });
         });
     });
 
-    async function textTranslate(button, translationContentEl,  text) {
+    async function textTranslate(button, sentenceNo, translationContentEl) {
         button.innerText = 'Translating...';
         button.disabled = true;
         translationContentEl.innerHTML = '';
@@ -106,7 +105,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ text: text })
+                body: JSON.stringify({ chapter_no: chapterNo, sentence_no: sentenceNo})
             });
             const data = await response.json();
             translationContentEl.innerText = data.translation;

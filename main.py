@@ -1,9 +1,10 @@
+import json
 from pathlib import Path
 import requests
 from flask import Flask, render_template, jsonify, request, url_for, Response, stream_with_context
 
 from config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT
-from lib.utils.chapter_utils import transfer_text
+from lib.utils.chapter_utils import tagged_html
 from lib.utils.openai_translator_utils import ChatGptTranslator
 
 app = Flask(__name__)
@@ -13,31 +14,34 @@ cache_dir = Path('cache')
 
 @app.get('/')
 def home():
-    return render_template('home.html', book_name='the-great-gatsby')
+    return render_template('home.html', book_slug='the-great-gatsby')
 
 
-def get_chapter_url(book_name: str, chapter_num: int) -> str:
-    return url_for('chapter', book_name=book_name, chapter_num=str(chapter_num).zfill(2))
+def get_chapter_url(book_slug: str, chapter_no: int) -> str:
+    return url_for('chapter', book_slug=book_slug, chapter_no=str(chapter_no))
 
 
-@app.get('/book/<book_name>/chapter-<chapter_num>.html')
-def chapter(book_name: str, chapter_num: str):
-    prev_chapter = int(chapter_num) - 1
-    next_chapter = int(chapter_num) + 1
-    chapter_file_name = f'chapter-{chapter_num}.html'
-    cache_file = cache_dir.joinpath(book_name).joinpath(chapter_file_name)
+@app.get('/book/<book_slug>/chapter-<chapter_no>.html')
+def chapter(book_slug: str, chapter_no: str):
+    prev_chapter = int(chapter_no) - 1
+    next_chapter = int(chapter_no) + 1
+    chapter_file_name = f'chapter-{chapter_no}.html'
+    cache_file = cache_dir.joinpath(book_slug).joinpath("tagged").joinpath(chapter_file_name)
+    sentences_file = cache_dir.joinpath(book_slug).joinpath("sentences").joinpath(f"{chapter_no}.json")
     if not cache_file.exists():
-        content = books_dir.joinpath(book_name).joinpath(chapter_file_name).read_text()
+        content = books_dir.joinpath(book_slug).joinpath(chapter_file_name).read_text()
         cache_file.parent.mkdir(parents=True, exist_ok=True)
-        tagged_content = transfer_text(content)
+        tagged_content, sentences = tagged_html(content)
+        sentences_file.parent.mkdir(parents=True, exist_ok=True)
+        sentences_file.write_text(json.dumps(sentences, ensure_ascii=False))
         cache_file.write_text(tagged_content)
     else:
         tagged_content = cache_file.read_text()
 
     return render_template('chapter.html',
-                           book_name=book_name,
-                           prev_chapter_url=get_chapter_url(book_name, prev_chapter) if prev_chapter >= 0 else None,
-                           next_chapter_url=get_chapter_url(book_name, next_chapter) if next_chapter <= 9 else None,
+                           chapter_no=chapter_no,
+                           prev_chapter_url=get_chapter_url(book_slug, prev_chapter) if prev_chapter >= 0 else None,
+                           next_chapter_url=get_chapter_url(book_slug, next_chapter) if next_chapter <= 9 else None,
                            content=tagged_content)
 
 
@@ -64,13 +68,26 @@ def dictionary():
 @app.post('/translate')
 def translate():
     book_name = request.json.get('book_name', 'The Great Gatsby')
-    to_lang = request.json.get('to_lang', 'zh-cn')
-    text = request.json.get('text')
+    book_slug = request.json.get('book_slug', 'the-great-gatsby')
+    chapter_no = request.json.get('chapter_no')
+    sentence_no = request.json.get('sentence_no')
+    to_lang = request.json.get('to_lang', "zh-Hans")
+
+    assert chapter_no is not None, "Chapter number is required"
+    assert sentence_no is not None, "Sentence number is required"
 
     translator = ChatGptTranslator(book_name)
-    # todo: cache translation
 
+    translation_file = cache_dir.joinpath(book_slug).joinpath("translations").joinpath(to_lang).joinpath(f"{chapter_no}-{sentence_no}.txt")
+    translation_file.parent.mkdir(parents=True, exist_ok=True)
+    if translation_file.exists():
+        return jsonify({'translation': translation_file.read_text()})
+
+    sentences_file = cache_dir.joinpath(book_slug).joinpath("sentences").joinpath(f"{chapter_no}.json")
+    sentences = json.loads(sentences_file.read_text())
+    text = sentences[int(sentence_no) - 1]
     translation = translator.translate(text, to_lang)
+    translation_file.write_text(translation)
     return jsonify({'translation': translation})
 
 
