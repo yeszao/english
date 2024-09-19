@@ -20,7 +20,7 @@ def tagged_html(input_html: str) -> (str, List[str]):
 
     all_sentences = []
     sentence_no = 0
-    for tag in soup.find_all(['p', 'span']):
+    for tag in soup.find_all(['p', 'span', 'li']):
         sentence_no, sentences = process_tag(tag, sentence_no)
         all_sentences.extend(sentences)
 

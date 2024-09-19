@@ -40,3 +40,12 @@ h2 {text-align: center;}
     border-color: #6c757d;
     color: #6c757d;
 }
+
+blockquote {
+    font-style: italic;
+    margin-left: 1.5rem;
+}
+
+blockquote p {
+    margin-bottom: 0.25rem;
+}
