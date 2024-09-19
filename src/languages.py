@@ -1,4 +1,4 @@
-languages = [
+SUPPORTED_LANGUAGES = [
     {"code": "af", "name": "Afrikaans", "nativeName": "Afrikaans"},
     {"code": "ar", "name": "Arabic", "nativeName": "العربية"},
     {"code": "bg", "name": "Bulgarian", "nativeName": "Български"},
@@ -51,4 +51,4 @@ languages = [
     {"code": "zh-Hans", "name": "Chinese Simplified", "nativeName": "中文 (简体)"}
 ]
 
-lang_map = {lang["code"]: lang["name"] for lang in languages}
+LANGUAGES_MAP = {lang["code"]: lang["name"] for lang in SUPPORTED_LANGUAGES}

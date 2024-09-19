@@ -51,6 +51,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         initFontAndDarkButtons();
         loadMoreNumber();
+        languageSelection();
     });
 
     var mores = document.getElementsByClassName("more");
@@ -82,6 +83,7 @@
         button.innerText = 'Translating...';
         button.disabled = true;
         translationContentEl.innerHTML = '';
+        var to_lang = document.getElementById('language-selector').value;
         try {
             // Assuming you have an API endpoint that provides the translation
             const response = await fetch(`/translate`, {
@@ -89,9 +91,20 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ book_id: bookId, chapter_no: chapterNo, sentence_no: sentenceNo})
+                body: JSON.stringify({
+                    book_id: bookId,
+                    chapter_no: chapterNo,
+                    sentence_no: sentenceNo,
+                    to_lang: to_lang,
+                })
             });
+
             const data = await response.json();
+            if (!response.ok) {
+                alert(data.error);
+                return;
+            }
+
             translationContentEl.innerText = data.translation;
         } catch (error) {
             alert("Failed to fetch translation")

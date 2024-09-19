@@ -7,15 +7,19 @@
 .bg-dark .list-group-item,
 .bg-dark .offcanvas,
 .bg-dark .offcanvas-header,
-.bg-dark .offcanvas-body
+.bg-dark .offcanvas-body,
+.bg-dark .form-select
 {
     background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+    border-color: rgba(var(--bs-dark-rgb), var(--bs-border-opacity)) !important;
 }
 
 .text-light h1,
 .text-light card,
 .text-light .offcanvas-header,
-.text-light .offcanvas-body {
+.text-light .offcanvas-body,
+.text-light .form-select
+{
     color: var(--bs-light-rgb) !important;
 }
 

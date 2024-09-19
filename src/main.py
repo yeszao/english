@@ -3,7 +3,7 @@ import requests
 from flask import Flask, render_template, jsonify, request, Response, stream_with_context
 
 from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, CACHE_DIR, BOOKS_DIR
-from src.languages import lang_map
+from src.languages import SUPPORTED_LANGUAGES
 from src.utils.book_utils import get_book_slug_map, get_chapter_urls, get_book_objects, get_book_id_map
 from src.utils.chapter_utils import tagged_html
 from src.utils.openai_translator_utils import ChatGptTranslator
@@ -14,7 +14,7 @@ app = Flask(__name__)
 @app.context_processor
 def inject_global_variables():
     return dict(
-        languages=lang_map,
+        languages=SUPPORTED_LANGUAGES,
     )
 
 
@@ -73,10 +73,19 @@ def translate():
     book_id = int(request.json.get('book_id'))
     chapter_no = request.json.get('chapter_no')
     sentence_no = request.json.get('sentence_no')
-    to_lang = request.json.get('to_lang', "zh-Hans")
+    to_lang = request.json.get('to_lang')
 
-    assert chapter_no is not None, "Chapter number is required"
-    assert sentence_no is not None, "Sentence number is required"
+    if book_id is None:
+        return jsonify({'error': 'Book ID is required'}), 401
+
+    if chapter_no is None:
+        return jsonify({'error': 'Chapter number is required'}), 401
+
+    if sentence_no is None:
+        return jsonify({'error': 'Sentence number is required'}), 401
+
+    if to_lang is None:
+        return jsonify({'error': 'Language is required'}), 401
 
     book = get_book_id_map()[book_id]
     translator = ChatGptTranslator(book.name)
