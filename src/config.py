@@ -1,4 +1,10 @@
 import os
+from pathlib import Path
+
+APP_DIR = Path(__file__).parent.parent
+SRC_DIR = APP_DIR.joinpath("src")
+CACHE_DIR = APP_DIR.joinpath("cache")
+BOOKS_DIR = SRC_DIR.joinpath("books")
 
 DICT_ENDPOINT = os.getenv("DICT_ENDPOINT")
 AUDIO_ENDPOINT = os.getenv("AUDIO_ENDPOINT")

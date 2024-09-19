@@ -1,5 +1,4 @@
-import requests
-from lib.utils.openai_utils import get_completions
+from src.utils.openai_utils import get_completions
 
 
 class ChatGptTranslator:

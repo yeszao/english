@@ -5,6 +5,7 @@
     "slug": "the-great-gatsby",
     "author": "F. Scott Fitzgerald",
     "chapter_number": 9,
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/7/7a/The_Great_Gatsby_Cover_1925_Retouched.jpg",
     "description": "The Great Gatsby is a novel by American author F. Scott Fitzgerald. The book was first published in 1925, and it has been republished in 1945 and 1953. The Great Gatsby is a novel about the American Dream, and the book is set in the 1920s."
   },
   {
@@ -13,6 +14,16 @@
     "slug": "animal-farm",
     "author": "George Orwell",
     "chapter_number": 10,
+    "cover": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Animal_Farm_-_1st_edition.jpg",
     "description": "Animal Farm is a novel about a group of farm animals who rebel against their human farmer, and the book is a satire of the Russian Revolution."
+  },
+  {
+    "id": 2,
+    "name": "Pride and Prejudice",
+    "slug": "pride-and-prejudice",
+    "author": "Jane Austen",
+    "chapter_number": 61,
+    "cover": "https://www.gutenberg.org/cache/epub/1342/images/cover.jpg",
+    "description": "Pride and Prejudice is a novel by English author Jane Austen. The book was first published in 1813, and it has been republished in 1833 and 1853. Pride and Prejudice is a novel about the social class system in England in the early 19th century."
   }
 ]

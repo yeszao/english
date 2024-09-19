@@ -1,6 +1,6 @@
 import requests
 
-from config import OPENAI_MODEL, OPENAI_KEY
+from src.config import OPENAI_MODEL, OPENAI_KEY
 
 
 def get_completions(completion_params: dict) -> dict:

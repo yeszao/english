@@ -1,6 +1,6 @@
 from typing import List
 import spacy
-from bs4 import BeautifulSoup, NavigableString
+from bs4 import BeautifulSoup
 from spacy.language import Language
 
 nlp: Language = spacy.load("en_core_web_sm")
