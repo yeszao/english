@@ -1,5 +1,6 @@
 :root {
     --bs-light-rgb: 180, 180, 180;
+    --bs-btn-color: #6c757d;
 }
 
 .bg-dark .card,
@@ -11,7 +12,7 @@
 .bg-dark .form-select
 {
     background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
-    border-color: rgba(var(--bs-dark-rgb), var(--bs-border-opacity)) !important;
+    border-color: var(--bs-btn-color) !important;
 }
 
 .text-light h1,

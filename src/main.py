@@ -50,9 +50,15 @@ def chapter(book_slug: str, chapter_no: str):
 
 @app.get('/dictionary')
 def dictionary():
-    from_lang = request.args.get('from_lang')
+    from_lang = request.args.get('from_lang', 'en')
     to_lang = request.args.get('to_lang')
     text = request.args.get('text')
+
+    if to_lang is None:
+        return jsonify({'error': 'Language is required'}), 401
+
+    if text is None:
+        return jsonify({'error': 'Translate text is required'}), 401
 
     headers = {
         'Content-Type': 'application/json',

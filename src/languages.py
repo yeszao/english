@@ -33,22 +33,22 @@ SUPPORTED_LANGUAGES = [
     {"code": "nb", "name": "Norwegian", "nativeName": "Norsk Bokmål"},
     {"code": "nl", "name": "Dutch", "nativeName": "Nederlands"},
     {"code": "pl", "name": "Polish", "nativeName": "Polski"},
-    {"code": "pt", "name": "Portuguese (Brazil)", "nativeName": "Português (Brasil)"},
+    {"code": "pt", "name": "Portuguese", "nativeName": "Português"},
     {"code": "ro", "name": "Romanian", "nativeName": "Română"},
     {"code": "ru", "name": "Russian", "nativeName": "Русский"},
     {"code": "sk", "name": "Slovak", "nativeName": "Slovenčina"},
     {"code": "sl", "name": "Slovenian", "nativeName": "Slovenščina"},
-    {"code": "sr-Latn", "name": "Serbian (Latin)", "nativeName": "Srpski (latinica)"},
+    {"code": "sr-Latn", "name": "Serbian", "nativeName": "Srpski"},
     {"code": "sv", "name": "Swedish", "nativeName": "Svenska"},
     {"code": "sw", "name": "Swahili", "nativeName": "Kiswahili"},
     {"code": "ta", "name": "Tamil", "nativeName": "தமிழ்"},
     {"code": "th", "name": "Thai", "nativeName": "ไทย"},
-    {"code": "tlh-Latn", "name": "Klingon (Latin)", "nativeName": "Klingon (Latin)"},
+    {"code": "tlh-Latn", "name": "Klingon", "nativeName": "Klingon"},
     {"code": "tr", "name": "Turkish", "nativeName": "Türkçe"},
     {"code": "uk", "name": "Ukrainian", "nativeName": "Українська"},
     {"code": "ur", "name": "Urdu", "nativeName": "اردو"},
     {"code": "vi", "name": "Vietnamese", "nativeName": "Tiếng Việt"},
-    {"code": "zh-Hans", "name": "Chinese Simplified", "nativeName": "中文 (简体)"}
+    {"code": "zh-Hans", "name": "Chinese Simplified", "nativeName": "中文简体"}
 ]
 
 LANGUAGES_MAP = {lang["code"]: lang["name"] for lang in SUPPORTED_LANGUAGES}
