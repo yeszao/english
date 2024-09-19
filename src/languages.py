@@ -1,4 +1,6 @@
 SUPPORTED_LANGUAGES = [
+    {"code": "zh-Hans", "name": "Chinese Simplified", "nativeName": "中文简体"},
+    {"code": "ja", "name": "Japanese", "nativeName": "日本語"},
     {"code": "af", "name": "Afrikaans", "nativeName": "Afrikaans"},
     {"code": "ar", "name": "Arabic", "nativeName": "العربية"},
     {"code": "bg", "name": "Bulgarian", "nativeName": "Български"},
@@ -10,7 +12,7 @@ SUPPORTED_LANGUAGES = [
     {"code": "da", "name": "Danish", "nativeName": "Dansk"},
     {"code": "de", "name": "German", "nativeName": "Deutsch"},
     {"code": "el", "name": "Greek", "nativeName": "Ελληνικά"},
-    {"code": "en", "name": "English", "nativeName": "English"},
+    # {"code": "en", "name": "English", "nativeName": "English"},
     {"code": "es", "name": "Spanish", "nativeName": "Español"},
     {"code": "et", "name": "Estonian", "nativeName": "Eesti"},
     {"code": "fa", "name": "Persian", "nativeName": "فارسی"},
@@ -23,7 +25,6 @@ SUPPORTED_LANGUAGES = [
     {"code": "id", "name": "Indonesian", "nativeName": "Indonesia"},
     {"code": "is", "name": "Icelandic", "nativeName": "Íslenska"},
     {"code": "it", "name": "Italian", "nativeName": "Italiano"},
-    {"code": "ja", "name": "Japanese", "nativeName": "日本語"},
     {"code": "ko", "name": "Korean", "nativeName": "한국어"},
     {"code": "lt", "name": "Lithuanian", "nativeName": "Lietuvių"},
     {"code": "lv", "name": "Latvian", "nativeName": "Latviešu"},
@@ -48,7 +49,6 @@ SUPPORTED_LANGUAGES = [
     {"code": "uk", "name": "Ukrainian", "nativeName": "Українська"},
     {"code": "ur", "name": "Urdu", "nativeName": "اردو"},
     {"code": "vi", "name": "Vietnamese", "nativeName": "Tiếng Việt"},
-    {"code": "zh-Hans", "name": "Chinese Simplified", "nativeName": "中文简体"}
 ]
 
 LANGUAGES_MAP = {lang["code"]: lang["name"] for lang in SUPPORTED_LANGUAGES}
