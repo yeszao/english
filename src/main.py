@@ -3,11 +3,19 @@ import requests
 from flask import Flask, render_template, jsonify, request, Response, stream_with_context
 
 from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, CACHE_DIR, BOOKS_DIR
+from src.languages import lang_map
 from src.utils.book_utils import get_book_slug_map, get_chapter_urls, get_book_objects, get_book_id_map
 from src.utils.chapter_utils import tagged_html
 from src.utils.openai_translator_utils import ChatGptTranslator
 
 app = Flask(__name__)
+
+
+@app.context_processor
+def inject_global_variables():
+    return dict(
+        languages=lang_map,
+    )
 
 
 @app.get('/')

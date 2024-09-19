@@ -9,14 +9,7 @@
 </head>
 <body>
 
-<div class="container box mt-2 d-flex justify-content-between">
-    <a class="text-muted small" href="/">Home</a>
-    <div class="d-block-inline">
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="decreaseFont">A-</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="increaseFont">A+</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="toggleDarkMode">Dark</button>
-    </div>
-</div>
+{% include 'common/navbar.html' %}
 
 <div class="container box mt-5 mb-4" id="chapter-main" data-chapter-no="{{ chapter_no }}" data-book-id="{{ book.id }}">
     {{ content|safe }}
@@ -34,18 +27,7 @@
     {% endif %}
 </div>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasTranslation" aria-labelledby="offcanvasLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title container box" id="offcanvasLabel">Searching</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="container box" id="translationContent">
-
-        </div>
-    </div>
-</div>
-
+{% include 'common/offcanvas.html' %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}?v5"></script>
