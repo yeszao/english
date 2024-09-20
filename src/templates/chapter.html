@@ -42,6 +42,10 @@
 
     for (var i = 0; i < words.length; i++) {
         words[i].addEventListener('click', function () {
+            var to_lang = document.getElementById('language-selector').value;
+            if (!to_lang) {
+                alert('Please select target language');
+            }
             offcanvasTitleEl.innerHTML = 'Searching...';
             offcanvasInstance.show();
             fetchTranslation(offcanvasTitleEl, translationContentEl, this.innerText);
@@ -84,6 +88,9 @@
         button.disabled = true;
         translationContentEl.innerHTML = '';
         var to_lang = document.getElementById('language-selector').value;
+        if (!to_lang) {
+            alert('Please select target language');
+        }
         try {
             // Assuming you have an API endpoint that provides the translation
             const response = await fetch(`/translate`, {
