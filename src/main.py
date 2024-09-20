@@ -2,7 +2,7 @@ import json
 import requests
 from flask import Flask, render_template, jsonify, request, Response, stream_with_context
 
-from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, CACHE_DIR, BOOKS_DIR
+from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, CACHE_DIR, BOOKS_DIR, STATIC_VERSION
 from src.languages import SUPPORTED_LANGUAGES
 from src.utils.book_utils import get_book_slug_map, get_chapter_urls, get_book_objects, get_book_id_map
 from src.utils.chapter_utils import tagged_html
@@ -20,7 +20,10 @@ def inject_global_variables():
 
 @app.get('/')
 def home():
-    return render_template('home.html', books=get_book_objects())
+    return render_template('home.html',
+                           static_version=STATIC_VERSION,
+                           books=get_book_objects()
+                           )
 
 
 @app.get('/book/<book_slug>/chapter-<chapter_no>.html')
@@ -96,7 +99,8 @@ def translate():
     book = get_book_id_map()[book_id]
     translator = ChatGptTranslator(book.name)
 
-    translation_file = CACHE_DIR.joinpath(book.slug).joinpath("translations").joinpath(to_lang).joinpath(f"{chapter_no}-{sentence_no}.txt")
+    translation_file = CACHE_DIR.joinpath(book.slug).joinpath("translations").joinpath(to_lang).joinpath(
+        f"{chapter_no}-{sentence_no}.txt")
     translation_file.parent.mkdir(parents=True, exist_ok=True)
     if translation_file.exists():
         return jsonify({'translation': translation_file.read_text()})

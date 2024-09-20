@@ -12,3 +12,5 @@ DICT_API_KEY = os.getenv("DICT_API_KEY")
 
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 OPENAI_KEY = os.getenv("OPENAI_KEY")
+
+STATIC_VERSION = os.getenv("STATIC_VERSION", "1")
