@@ -45,10 +45,11 @@
             var to_lang = document.getElementById('language-selector').value;
             if (!to_lang) {
                 alert('Please select target language');
+                return;
             }
             offcanvasTitleEl.innerHTML = 'Searching...';
             offcanvasInstance.show();
-            fetchTranslation(offcanvasTitleEl, translationContentEl, this.innerText);
+            searchDictionary(offcanvasTitleEl, translationContentEl, this.innerText, to_lang);
         });
     }
 
@@ -90,6 +91,7 @@
         var to_lang = document.getElementById('language-selector').value;
         if (!to_lang) {
             alert('Please select target language');
+            return;
         }
         try {
             // Assuming you have an API endpoint that provides the translation

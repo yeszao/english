@@ -33,11 +33,9 @@ var captureWordOnClick = function(containerEl, callback) {
 };
 
 
-async function fetchTranslation(offcanvasTitleEl, translationContentEl,  word) {
+async function searchDictionary(offcanvasTitleEl, translationContentEl, word, to_lang) {
     translationContentEl.innerHTML = '';
     try {
-        // Assuming you have an API endpoint that provides the translation
-        const to_lang = document.getElementById('language-selector').value;
         const response = await fetch(`/dictionary?to_lang=${to_lang}&text=${word}`);
         const data = await response.json();
         displayTranslation(offcanvasTitleEl, translationContentEl, data);
