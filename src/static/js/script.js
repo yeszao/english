@@ -149,3 +149,33 @@ function languageSelection() {
         localStorage.setItem('language', languageSelector.value);
     });
 }
+
+function saveReadingProgress(bookId, chapterNo, scrollPosition) {
+    const readingProgress = {
+        bookId: bookId,
+        chapterNo: chapterNo,
+        scrollPosition: scrollPosition,
+    };
+    localStorage.setItem('readingProgress', JSON.stringify(readingProgress));
+}
+
+// Track scroll position and save progress when the user scrolls or leaves the page
+window.addEventListener('scroll', () => {
+    saveReadingProgress(bookId, chapterNo, window.scrollY);
+});
+
+function loadReadingProgress() {
+    const storedProgress = localStorage.getItem('readingProgress');
+
+    if (storedProgress) {
+        const { bookId, chapterNo, scrollPosition } = JSON.parse(storedProgress);
+        console.log(`Resume reading Book ID: ${bookId}, Chapter: ${chapterNo}, Scroll Position: ${scrollPosition}`);
+
+        // Logic to navigate to the saved chapter
+        // Once in the correct chapter, scroll to the saved position
+        window.scrollTo(0, scrollPosition);  // Scroll to the saved vertical position
+    }
+}
+
+// Call this function on page load to restore the user's last position
+window.addEventListener('load', loadReadingProgress);

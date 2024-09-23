@@ -26,6 +26,13 @@ def home():
                            )
 
 
+@app.get('/book/<book_slug>.html')
+def book(book_slug: str):
+    book = get_book_slug_map()[book_slug]
+    return render_template('book.html',
+                           book=book)
+
+
 @app.get('/book/<book_slug>/chapter-<chapter_no>.html')
 def chapter(book_slug: str, chapter_no: str):
     chapter_file_name = f'chapter-{chapter_no}.html'
