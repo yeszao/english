@@ -1,6 +1,7 @@
 :root {
     --bs-light-rgb: 180, 180, 180;
     --bs-btn-color: #6c757d;
+    --book-cover-width: 10rem;
 }
 
 .bg-dark .card,
@@ -56,4 +57,9 @@ blockquote {
 
 blockquote p {
     margin-bottom: 0.45rem;
+}
+
+.cover {
+    width: var(--book-cover-width);
+    height: calc(var(--book-cover-width) * 1.5);
 }
