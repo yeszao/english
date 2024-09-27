@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    restart: unless-stopped
     volumes:
       - ./cache:/workspace/cache
     env_file:
