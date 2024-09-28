@@ -46,11 +46,22 @@ def process_tag(tag, sentence_no) -> (int, List[str]):
     return sentence_no, raw_sentences
 
 
-def wrap_words(text):
+def wrap_words(text, start_tag='<span class="word">', end_tag='</span>'):
     doc = get_words(text)
     wrapped = ''
+
+    # Merge entities (such as "New York" or "John Smith") into single tokens
+    with doc.retokenize() as retokenizer:
+        for ent in doc.ents:
+            retokenizer.merge(ent)
+
     for token in doc:
-        wrapped += f'<span class="word">{token.text}</span>' if token.is_alpha else token.text
+        if token.is_alpha or token.ent_type_:
+            wrapped += f'{start_tag}{token.text}{end_tag}'
+        else:
+            # Keep punctuation and non-alpha tokens unchanged
+            wrapped += token.text
+
         if token.whitespace_:
             wrapped += token.whitespace_
 
