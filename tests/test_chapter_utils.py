@@ -16,7 +16,7 @@ def test_tagged_html():
 
 @pytest.mark.parametrize("text, expected", [
     ("Hello, world!", '[Hello], [world]!'),
-    ("John Smith was born in New York but moved to Los Angeles.", '[John Smith] [was] [born] [in] [New York] [but] [moved] [to] [Los Angeles].'),
+    ("John Smith was born in New York but moved to Los Angeles in United States.", '[John Smith] [was] [born] [in] [New York] [but] [moved] [to] [Los Angeles] [in] [United States].'),
 ])
 def test_wrap_words(text, expected):
     assert wrap_words(text, '[', ']') == expected
