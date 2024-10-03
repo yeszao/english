@@ -4,7 +4,8 @@ async function searchDictionary(offcanvasTitleEl, offcanvasContentEl, word, to_l
         const data = await response.json();
         displayTranslation(offcanvasTitleEl, offcanvasContentEl, data);
     } catch (error) {
-        alert("Failed to fetch translation")
+        offcanvasTitleEl.innerHTML = word;
+        offcanvasContentEl.innerHTML = '<i class="text-muted">No translation found</i>';
     }
 }
 
