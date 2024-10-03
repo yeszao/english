@@ -11,7 +11,13 @@
 
 {% include 'common/navbar.html' %}
 
-<div class="container box mt-5 mb-4" id="chapter-main" data-chapter-no="{{ chapter_no }}" data-book-id="{{ book.id }}">
+<p class="text-center mt-5">
+  <a href="{{ url_for('book', book_slug=book.slug) }}" class="text-muted">
+  {{ book.name }}
+  </a>
+</p>
+
+<div class="container box mt-2 mb-4" id="chapter-main" data-chapter-no="{{ chapter_no }}" data-book-slug="{{ book.slug }}">
     {{ content|safe }}
 </div>
 
@@ -40,7 +46,7 @@
 
     var contentEl = document.getElementById('chapter-main');
     var chapterNo = contentEl.getAttribute('data-chapter-no');
-    var bookId = contentEl.getAttribute('data-book-id');
+    var bookSlug = contentEl.getAttribute('data-book-slug');
 
     var wordEls = contentEl.getElementsByTagName('i');
     var sentenceButtonEls = contentEl.getElementsByTagName("s");
@@ -63,11 +69,15 @@
         languageSelection();
     });
 
+    // Track scroll position and save progress when the user scrolls or leaves the page
+    window.addEventListener('scroll', () => {
+        saveReadingProgress(bookSlug, chapterNo, getFirstVisibleSentenceId());
+    });
 
     Array.from(sentenceButtonEls).forEach(function(p) {
         p.addEventListener('click', function(event) {
             var sentenceEl = event.currentTarget.parentElement;
-            var sentenceNo = event.currentTarget.getAttribute('n');
+            var sentenceNo = event.currentTarget.getAttribute('id');
             offcanvasTitleEl.innerHTML = '';
             const titleDiv = document.createElement('div');
             titleDiv.classList.add('d-flex', 'justify-content-center');
@@ -105,7 +115,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    book_id: bookId,
+                    book_slug: bookSlug,
                     chapter_no: chapterNo,
                     sentence_no: sentenceNo,
                     to_lang: to_lang,

@@ -4,7 +4,7 @@ from flask import Flask, render_template, jsonify, request, Response, stream_wit
 
 from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, CACHE_DIR, BOOKS_DIR, STATIC_VERSION
 from src.languages import SUPPORTED_LANGUAGES
-from src.utils.book_utils import get_book_slug_map, get_chapter_urls, get_book_objects, get_book_id_map
+from src.utils.book_utils import get_book_slug_map, get_chapter_urls, get_book_objects
 from src.utils.chapter_utils import tagged_html
 from src.utils.openai_translator_utils import ChatGptTranslator
 
@@ -86,13 +86,13 @@ def dictionary():
 
 @app.post('/translate')
 def translate():
-    book_id = int(request.json.get('book_id'))
+    book_slug = request.json.get('book_slug')
     chapter_no = request.json.get('chapter_no')
     sentence_no = request.json.get('sentence_no')
     to_lang = request.json.get('to_lang')
 
-    if book_id is None:
-        return jsonify({'error': 'Book ID is required'}), 401
+    if book_slug is None:
+        return jsonify({'error': 'Book slug is required'}), 401
 
     if chapter_no is None:
         return jsonify({'error': 'Chapter number is required'}), 401
@@ -103,7 +103,7 @@ def translate():
     if to_lang is None:
         return jsonify({'error': 'Language is required'}), 401
 
-    book = get_book_id_map()[book_id]
+    book = get_book_slug_map()[book_slug]
     translator = ChatGptTranslator(book.name)
 
     translation_file = CACHE_DIR.joinpath(book.slug).joinpath("translations").joinpath(to_lang).joinpath(
@@ -145,4 +145,4 @@ def play():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

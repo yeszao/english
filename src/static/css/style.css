@@ -28,13 +28,13 @@
 .box {max-width: 640px;}
 h2 {text-align: center;}
 
-#chapter-content b {
+#chapter-main b {
     font-weight: normal;
 }
-#chapter-content i, .offcanvas i {
+#chapter-main i, .offcanvas i {
     font-style: normal;
 }
-#chapter-content s {
+#chapter-main s {
     text-decoration: none;
     text-align: center;
     cursor: pointer;
@@ -49,7 +49,7 @@ h2 {text-align: center;}
     margin-right: 0.125rem !important;
 }
 
-.bg-dark #chapter-content s {
+.bg-dark #chapter-main s {
     border-color: #6c757d;
     color: #6c757d;
 }
@@ -66,6 +66,9 @@ blockquote p {
     margin-bottom: 0.45rem;
 }
 
+.cover-width {
+    width: var(--book-cover-width);
+}
 .cover {
     width: var(--book-cover-width);
     height: calc(var(--book-cover-width) * 1.5);

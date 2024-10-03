@@ -38,7 +38,7 @@ def process_tag(tag, sentence_no) -> (int, List[str]):
     tagged_sentences = []
     for s in sentences:
         sentence_no += 1
-        tagged_sentences.append(f'<b><s n="{sentence_no}">{sentence_no}</s>{wrap_words(s)}</b> ')
+        tagged_sentences.append(f'<b><s id="{sentence_no}">{sentence_no}</s>{wrap_words(s)}</b> ')
 
     tag.clear()
     tag.append(BeautifulSoup(' '.join(tagged_sentences), 'html.parser'))

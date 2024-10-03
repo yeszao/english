@@ -115,32 +115,47 @@ function languageSelection() {
     });
 }
 
-function saveReadingProgress(bookId, chapterNo, scrollPosition) {
+function saveReadingProgress(bookSlug, chapterNo, sentenceId) {
     const readingProgress = {
-        bookId: bookId,
         chapterNo: chapterNo,
-        scrollPosition: scrollPosition,
+        sentenceId: sentenceId,
     };
-    localStorage.setItem('readingProgress', JSON.stringify(readingProgress));
+    localStorage.setItem(`bookReadingProgress_${bookSlug}`, JSON.stringify(readingProgress));
 }
 
-// Track scroll position and save progress when the user scrolls or leaves the page
-window.addEventListener('scroll', () => {
-    saveReadingProgress(bookId, chapterNo, window.scrollY);
-});
+function getReadingProgress(bookSlug) {
+    return localStorage.getItem(`bookReadingProgress_${bookSlug}`);
+}
 
-function loadReadingProgress() {
-    const storedProgress = localStorage.getItem('readingProgress');
+function loadReadingProgressToButton(buttonSelector) {
+    var readButtonEls = document.querySelectorAll(buttonSelector);
+    Array.from(readButtonEls).forEach(buttonEl => {
+        const bookSlug = buttonEl.dataset.bookSlug;
+        const storedProgress = getReadingProgress(bookSlug);
+        console.log(storedProgress);
 
-    if (storedProgress) {
-        const { bookId, chapterNo, scrollPosition } = JSON.parse(storedProgress);
-        console.log(`Resume reading Book ID: ${bookId}, Chapter: ${chapterNo}, Scroll Position: ${scrollPosition}`);
+        if (storedProgress) {
+            const { chapterNo, sentenceId } = JSON.parse(storedProgress);
+            buttonEl.href = `/book/${bookSlug}/chapter-${chapterNo}.html#${sentenceId}`;
+            buttonEl.innerText = `Continue from chapter ${chapterNo} sentence ${sentenceId}`;
+        }
+    });
+}
 
-        // Logic to navigate to the saved chapter
-        // Once in the correct chapter, scroll to the saved position
-        window.scrollTo(0, scrollPosition);  // Scroll to the saved vertical position
+function getFirstVisibleSentenceId() {
+    // Get all <s> tags on the page
+    const sTags = document.querySelectorAll('s');
+
+    // Loop through the <s> tags to find the first visible one
+    for (let sTag of sTags) {
+        const rect = sTag.getBoundingClientRect();
+
+        // Check if the element is in the visible window (partially or fully)
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+            // Return the id of the first visible <s> tag
+            return sTag.id;
+        }
     }
-}
 
-// Call this function on page load to restore the user's last position
-window.addEventListener('load', loadReadingProgress);
+    return 1;
+}

@@ -40,7 +40,3 @@ def get_book_dicts():
 
 def get_book_slug_map() -> Dict[str, Book]:
     return {book.slug: book for book in get_book_objects()}
-
-
-def get_book_id_map() -> Dict[int, Book]:
-    return {book.id: book for book in get_book_objects()}
