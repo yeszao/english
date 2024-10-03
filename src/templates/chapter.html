@@ -89,7 +89,7 @@
             offcanvasTitleEl.appendChild(titleDiv);
 
             // remove sentence no
-            offcanvasContentEl.innerHTML = sentenceEl.innerHTML.replace(/<s\b[^>]*>(.*?)<\/s>/g, '');
+            offcanvasContentEl.innerHTML = sentenceEl.innerHTML;
             offcanvasInstance.show();
 
             button.addEventListener('click', function () {
