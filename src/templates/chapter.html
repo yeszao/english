@@ -65,7 +65,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         initFontAndDarkButtons();
         languageSelection();
-        cleanOffCanvasContent();
+        cleanOffCanvasContent(offcanvasTitleEl, offcanvasContentEl);
     });
 
     // Track scroll position and save progress when the user scrolls or leaves the page
@@ -127,20 +127,13 @@
                 return;
             }
 
-            offcanvasContentEl.innerHTML += "<br><br>" + data.translation;
+            offcanvasContentEl.innerHTML += '<div class="mt-3">' + data.translation + '</div>';
         } catch (error) {
             alert("Failed to fetch translation")
         } finally {
             button.innerText = 'Translate';
             button.disabled = false;
         }
-    }
-
-    function cleanOffCanvasContent() {
-        offcanvasEl.addEventListener('hidden.bs.offcanvas', function () {
-            offcanvasTitleEl.innerHTML = '';
-            offcanvasContentEl.innerHTML = '';
-        });
     }
 
 </script>

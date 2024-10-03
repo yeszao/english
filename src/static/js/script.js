@@ -158,3 +158,10 @@ function getFirstVisibleSentenceId() {
 
     return 1;
 }
+
+function cleanOffCanvasContent(offcanvasTitleEl, offcanvasContentEl) {
+    offcanvasEl.addEventListener('hidden.bs.offcanvas', function () {
+        offcanvasTitleEl.innerHTML = '';
+        offcanvasContentEl.innerHTML = '';
+    });
+}
