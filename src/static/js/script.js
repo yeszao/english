@@ -1,38 +1,3 @@
-
-var captureWordOnClick = function(containerEl, callback) {
-    containerEl.addEventListener('click', function (event) {
-        // Get the mouse position relative to the clicked element
-        const x = event.clientX;
-        const y = event.clientY;
-
-        // Get caret position at the point of click
-        const caretPosition = document.caretPositionFromPoint(x, y);
-
-        // If the click is on text, the offsetNode should be a text node
-        if (caretPosition && caretPosition.offsetNode.nodeType === Node.TEXT_NODE) {
-            // Get the full text where the click happened
-            const fullText = caretPosition.offsetNode.nodeValue;
-
-            // Get the clicked word by splitting text around the clicked character
-            const offset = caretPosition.offset;
-            const words = fullText.split(' ');
-
-            // Find which word was clicked by checking the offsets
-            let charCount = 0;
-            for (let word of words) {
-                if (offset <= charCount + word.length) {
-                    // Clean the word by removing punctuation at the end
-                    const cleanedWord = word.replace(/[.,!?;:"]+$/, '');
-                    callback(cleanedWord);
-                    break;
-                }
-                charCount += word.length + 1; // +1 for spaces
-            }
-        }
-    });
-};
-
-
 async function searchDictionary(offcanvasTitleEl, translationContentEl, word, to_lang) {
     translationContentEl.innerHTML = '';
     try {

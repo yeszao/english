@@ -32,16 +32,21 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}?{{ static_version }}"></script>
 <script>
-    var words = document.getElementsByClassName('word');
+
     var offcanvasTitleEl = document.getElementById('offcanvasLabel');
     var offcanvasEl = document.getElementById('offcanvasTranslation');
     var translationContentEl = document.getElementById('translationContent');
     var offcanvasInstance = new bootstrap.Offcanvas(offcanvasEl);
-    var chapterNo = document.getElementById('chapter-main').getAttribute('data-chapter-no');
-    var bookId = document.getElementById('chapter-main').getAttribute('data-book-id');
 
-    for (var i = 0; i < words.length; i++) {
-        words[i].addEventListener('click', function () {
+    var contentEl = document.getElementById('chapter-main');
+    var chapterNo = contentEl.getAttribute('data-chapter-no');
+    var bookId = contentEl.getAttribute('data-book-id');
+
+    var wordEls = contentEl.getElementsByTagName('i');
+    var sentenceButtonEls = contentEl.getElementsByTagName("s");
+
+    for (var i = 0; i < wordEls.length; i++) {
+        wordEls[i].addEventListener('click', function () {
             var to_lang = document.getElementById('language-selector').value;
             if (!to_lang) {
                 alert('Please select target language at top right');
@@ -55,15 +60,14 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         initFontAndDarkButtons();
-        loadMoreNumber();
         languageSelection();
     });
 
-    var mores = document.getElementsByClassName("more");
-    Array.from(mores).forEach(function(p) {
+
+    Array.from(sentenceButtonEls).forEach(function(p) {
         p.addEventListener('click', function(event) {
             var sentenceEl = event.currentTarget.parentElement;
-            var sentenceNo = event.currentTarget.getAttribute('data-no');
+            var sentenceNo = event.currentTarget.getAttribute('n');
             offcanvasTitleEl.innerHTML = '';
             const titleDiv = document.createElement('div');
             titleDiv.classList.add('d-flex', 'justify-content-center');
@@ -75,7 +79,7 @@
 
             offcanvasTitleEl.appendChild(titleDiv);
 
-            translationContentEl.innerHTML = sentenceEl.innerHTML;
+            translationContentEl.innerHTML = sentenceEl.innerHTML.replace(/<s\b[^>]*>(.*?)<\/s>/g, '');
             offcanvasInstance.show();
 
             button.addEventListener('click', function() {
@@ -123,11 +127,6 @@
         }
     }
 
-    function loadMoreNumber() {
-        Array.from(document.getElementsByClassName('more')).forEach(function (more) {
-            more.innerText = more.getAttribute('data-no');
-        });
-    }
 </script>
 </body>
 </html>

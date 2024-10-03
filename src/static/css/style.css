@@ -28,7 +28,14 @@
 .box {max-width: 640px;}
 h2 {text-align: center;}
 
-.more {
+#chapter-content b {
+    font-weight: normal;
+}
+#chapter-content i, .offcanvas i {
+    font-style: normal;
+}
+#chapter-content s {
+    text-decoration: none;
     text-align: center;
     cursor: pointer;
     font-style: normal;
@@ -42,7 +49,7 @@ h2 {text-align: center;}
     margin-right: 0.125rem !important;
 }
 
-.bg-dark .more {
+.bg-dark #chapter-content s {
     border-color: #6c757d;
     color: #6c757d;
 }

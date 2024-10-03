@@ -38,7 +38,7 @@ def process_tag(tag, sentence_no) -> (int, List[str]):
     tagged_sentences = []
     for s in sentences:
         sentence_no += 1
-        tagged_sentences.append(f'<span class="sentence"><i class="more" data-no={sentence_no}></i>{wrap_words(s)}</span> ')
+        tagged_sentences.append(f'<b><s n="{sentence_no}">{sentence_no}</s>{wrap_words(s)}</b> ')
 
     tag.clear()
     tag.append(BeautifulSoup(' '.join(tagged_sentences), 'html.parser'))
@@ -46,7 +46,7 @@ def process_tag(tag, sentence_no) -> (int, List[str]):
     return sentence_no, raw_sentences
 
 
-def wrap_words(text, start_tag='<span class="word">', end_tag='</span>'):
+def wrap_words(text, start_tag='<i>', end_tag='</i>'):
     doc = get_words(text)
     wrapped = ''
 
@@ -63,7 +63,7 @@ def wrap_words(text, start_tag='<span class="word">', end_tag='</span>'):
     return wrapped
 
 
-def wrap_words_and_entities(text, start_tag='<span class="word">', end_tag='</span>'):
+def wrap_words_and_entities(text, start_tag='<i>', end_tag='</i>'):
     doc = get_words(text)
     wrapped = ''
 
