@@ -131,10 +131,9 @@
             }
 
             offcanvasContentEl.innerHTML += '<div class="mt-3">' + data.translation + '</div>';
+            button.innerText = 'Translated';
         } catch (error) {
-            alert("Failed to fetch translation")
-        } finally {
-            button.innerText = 'Translate';
+            offcanvasContentEl.innerHTML = '<p class="text-muted">Translate failed, please try again</p>';
             button.disabled = false;
         }
     }
