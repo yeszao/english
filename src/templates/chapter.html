@@ -37,9 +37,9 @@
 <script src="{{ url_for('static', filename='js/script.js') }}?{{ static_version }}"></script>
 <script>
 
-    var offcanvasTitleEl = document.getElementById('offcanvasLabel');
-    var offcanvasEl = document.getElementById('offcanvasTranslation');
-    var translationContentEl = document.getElementById('translationContent');
+    var offcanvasTitleEl = document.getElementById('offcanvasTitle');
+    var offcanvasEl = document.getElementById('offcanvasRoot');
+    var offcanvasContentEl = document.getElementById('offcanvasContent');
     var offcanvasInstance = new bootstrap.Offcanvas(offcanvasEl);
 
     var contentEl = document.getElementById('chapter-main');
@@ -58,13 +58,14 @@
             }
             offcanvasTitleEl.innerHTML = 'Searching...';
             offcanvasInstance.show();
-            searchDictionary(offcanvasTitleEl, translationContentEl, this.innerText, to_lang);
+            searchDictionary(offcanvasTitleEl, offcanvasContentEl, this.innerText, to_lang);
         });
     }
 
     document.addEventListener('DOMContentLoaded', function () {
         initFontAndDarkButtons();
         languageSelection();
+        cleanOffCanvasContent();
     });
 
     // Track scroll position and save progress when the user scrolls or leaves the page
@@ -76,7 +77,7 @@
         p.addEventListener('click', function (event) {
             var sentenceEl = event.currentTarget.parentElement;
             var sentenceNo = event.currentTarget.getAttribute('id');
-            offcanvasTitleEl.innerHTML = '';
+
             const titleDiv = document.createElement('div');
             titleDiv.classList.add('d-flex', 'justify-content-center');
 
@@ -87,19 +88,19 @@
 
             offcanvasTitleEl.appendChild(titleDiv);
 
-            translationContentEl.innerHTML = sentenceEl.innerHTML.replace(/<s\b[^>]*>(.*?)<\/s>/g, '');
+            // remove sentence no
+            offcanvasContentEl.innerHTML = sentenceEl.innerHTML.replace(/<s\b[^>]*>(.*?)<\/s>/g, '');
             offcanvasInstance.show();
 
             button.addEventListener('click', function () {
-                textTranslate(button, sentenceNo, translationContentEl);
+                textTranslate(button, sentenceNo, offcanvasContentEl);
             });
         });
     });
 
-    async function textTranslate(button, sentenceNo, translationContentEl) {
+    async function textTranslate(button, sentenceNo, offcanvasContentEl) {
         button.innerText = 'Translating...';
         button.disabled = true;
-        translationContentEl.innerHTML = '';
         var to_lang = document.getElementById('language-selector').value;
         if (!to_lang) {
             alert('Please select target language at top right');
@@ -126,13 +127,20 @@
                 return;
             }
 
-            translationContentEl.innerText = data.translation;
+            offcanvasContentEl.innerHTML += "<br><br>" + data.translation;
         } catch (error) {
             alert("Failed to fetch translation")
         } finally {
             button.innerText = 'Translate';
             button.disabled = false;
         }
+    }
+
+    function cleanOffCanvasContent() {
+        offcanvasEl.addEventListener('hidden.bs.offcanvas', function () {
+            offcanvasTitleEl.innerHTML = '';
+            offcanvasContentEl.innerHTML = '';
+        });
     }
 
 </script>

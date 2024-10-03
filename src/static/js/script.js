@@ -1,9 +1,8 @@
-async function searchDictionary(offcanvasTitleEl, translationContentEl, word, to_lang) {
-    translationContentEl.innerHTML = '';
+async function searchDictionary(offcanvasTitleEl, offcanvasContentEl, word, to_lang) {
     try {
         const response = await fetch(`/dictionary?to_lang=${to_lang}&text=${word}`);
         const data = await response.json();
-        displayTranslation(offcanvasTitleEl, translationContentEl, data);
+        displayTranslation(offcanvasTitleEl, offcanvasContentEl, data);
     } catch (error) {
         alert("Failed to fetch translation")
     }
