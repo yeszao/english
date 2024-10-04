@@ -8,7 +8,7 @@ ENV PYTHONPATH=$PYTHONPATH:${WORK_SPACE}
 COPY requirements.txt ${WORK_SPACE}/requirements.txt
 RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
-RUN python -m spacy download en_core_web_sm
+#RUN python -m spacy download en_core_web_sm
 
 COPY src ${WORK_SPACE}/src
 
