@@ -13,16 +13,14 @@ app = Flask(__name__)
 @app.context_processor
 def inject_global_variables():
     return dict(
+        static_version=STATIC_VERSION,
         languages=SUPPORTED_LANGUAGES,
     )
 
 
 @app.get('/')
 def home():
-    return render_template('home.html',
-                           static_version=STATIC_VERSION,
-                           books=get_book_objects()
-                           )
+    return render_template('home.html', books=get_book_objects())
 
 
 @app.get('/<book_slug>.html')
