@@ -7,9 +7,6 @@ CACHE_DIR = APP_DIR.joinpath("cache")
 BOOKS_DIR = SRC_DIR.joinpath("books")
 BOOKS_GENERATED_DIR = SRC_DIR.joinpath("books_generated")
 
-TAGGED_HTML_DIRNAME = 'tagged_html'
-SENTENCES_DIRNAME = 'sentences'
-
 DICT_ENDPOINT = os.getenv("DICT_ENDPOINT")
 AUDIO_ENDPOINT = os.getenv("AUDIO_ENDPOINT")
 DICT_API_KEY = os.getenv("DICT_API_KEY")
