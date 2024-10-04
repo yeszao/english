@@ -1,5 +1,7 @@
 import json
 import shutil
+import threading
+
 from pydantic import BaseModel
 
 from src.config import BOOKS_GENERATED_DIR, BOOKS_DIR
@@ -45,7 +47,14 @@ def generate(book: Book):
 if __name__ == '__main__':
     prepare_root_dir()
     books = get_book_objects()
+
+    threads = []
     for b in books:
-        generate(b)
+        thread = threading.Thread(target=generate, args=(b,))
+        threads.append(thread)
+        thread.start()
+
+    for thread in threads:
+        thread.join()
 
     print("All done!")
