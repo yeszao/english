@@ -2,11 +2,9 @@ import json
 import requests
 from flask import Flask, render_template, jsonify, request, Response, stream_with_context
 
-from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, CACHE_DIR, BOOKS_DIR, STATIC_VERSION, \
-    TAGGED_HTML_DIRNAME, BOOKS_GENERATED_DIR
+from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, STATIC_VERSION, CACHE_DIR, BOOKS_GENERATED_DIR
 from src.languages import SUPPORTED_LANGUAGES
 from src.utils.book_utils import get_book_slug_map, get_prev_next_chapter_urls, get_book_objects, get_chapters, Chapter
-from src.utils.chapter_utils import tagged_html
 from src.utils.openai_translator_utils import ChatGptTranslator
 
 app = Flask(__name__)
@@ -39,7 +37,7 @@ def get_book(book_slug: str):
 def get_chapter(book_slug: str, chapter_no: str):
     book = get_book_slug_map()[book_slug]
     chapter = Chapter(int(chapter_no))
-    tagged_html_file = BOOKS_GENERATED_DIR.joinpath(book.slug).joinpath(TAGGED_HTML_DIRNAME).joinpath(chapter.html_file)
+    tagged_html_file = BOOKS_GENERATED_DIR.joinpath(book.slug).joinpath(chapter.html_file)
 
     prev_chapter_url, next_chapter_url = get_prev_next_chapter_urls(book, int(chapter_no))
     return render_template('chapter.html',
@@ -96,17 +94,19 @@ def get_translate():
         return jsonify({'error': 'Language is required'}), 401
 
     book = get_book_slug_map()[book_slug]
-    translator = ChatGptTranslator(book.name)
 
-    translation_file = CACHE_DIR.joinpath(book.slug).joinpath("translations").joinpath(to_lang).joinpath(
+    translation_file = CACHE_DIR.joinpath("translations").joinpath(book.slug).joinpath(to_lang).joinpath(
         f"{chapter_no}-{sentence_no}.txt")
     translation_file.parent.mkdir(parents=True, exist_ok=True)
     if translation_file.exists():
         return jsonify({'translation': translation_file.read_text()})
 
-    sentences_file = CACHE_DIR.joinpath(book.slug).joinpath("sentences").joinpath(f"{chapter_no}.json")
+    chapter = Chapter(int(chapter_no))
+    sentences_file = BOOKS_GENERATED_DIR.joinpath(book.slug).joinpath(chapter.sentences_file)
     sentences = json.loads(sentences_file.read_text())
     text = sentences[int(sentence_no) - 1]
+
+    translator = ChatGptTranslator(book.name)
     translation = translator.translate(text, to_lang)
     translation_file.write_text(translation)
     return jsonify({'translation': translation})
