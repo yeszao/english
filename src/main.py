@@ -25,7 +25,7 @@ def home():
                            )
 
 
-@app.get('/book/<book_slug>.html')
+@app.get('/<book_slug>.html')
 def get_book(book_slug: str):
     book = get_book_slug_map()[book_slug]
     return render_template('book.html',
@@ -33,7 +33,7 @@ def get_book(book_slug: str):
                            chapters=get_chapters(book))
 
 
-@app.get('/book/<book_slug>/chapter-<chapter_no>.html')
+@app.get('/<book_slug>/<chapter_no>.html')
 def get_chapter(book_slug: str, chapter_no: str):
     book = get_book_slug_map()[book_slug]
     chapter = Chapter(int(chapter_no))
