@@ -20,7 +20,7 @@
       <p>{{ book.description }}</p>
       <a class="btn btn-outline-secondary read-button"
          data-book-slug="{{ book.slug }}"
-         href="{{ url_for('chapter', book_slug=book.slug, chapter_no=1) }}">Read Now</a>
+         href="{{ url_for('get_chapter', book_slug=book.slug, chapter_no=1) }}">Read Now</a>
     </div>
   </div>
 </div>
@@ -28,9 +28,9 @@
 <div class="container box">
   <h2 class="fs-4 text-start">Chapters</h2>
   <ul class="list-group list-group-flush">
-    {% for i in range(1, book.chapter_number + 1) %}
+    {% for chapter in chapters %}
       <li class="list-group-item">
-        <a href="{{ url_for('chapter', book_slug=book.slug, chapter_no=i) }}">Chapter {{ i }}</a>
+        <a href="{{ chapter.get_url(book.slug) }}">{{ chapter.title }}</a>
       </li>
     {% endfor %}
   </ul>

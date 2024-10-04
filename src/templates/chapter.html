@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{ book.name }}</title>
+  <title>{{ chapter.title }} - {{ book.name }}</title>
   {% include 'common/head_meta.html' %}
 </head>
 <body>
@@ -9,12 +9,12 @@
 {% include 'common/navbar.html' %}
 
 <p class="text-center mt-5">
-  <a href="{{ url_for('book', book_slug=book.slug) }}" class="text-muted">
+  <a href="{{ url_for('get_book', book_slug=book.slug) }}" class="text-muted">
     {{ book.name }}
   </a>
 </p>
 
-<div class="container box mt-2 mb-4" id="chapter-main" data-chapter-no="{{ chapter_no }}"
+<div class="container box mt-2 mb-4" id="chapter-main" data-chapter-no="{{ chapter.no }}"
      data-book-slug="{{ book.slug }}">
   {{ content|safe }}
 </div>

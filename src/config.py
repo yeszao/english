@@ -5,6 +5,10 @@ APP_DIR = Path(__file__).parent.parent
 SRC_DIR = APP_DIR.joinpath("src")
 CACHE_DIR = APP_DIR.joinpath("cache")
 BOOKS_DIR = SRC_DIR.joinpath("books")
+BOOKS_GENERATED_DIR = SRC_DIR.joinpath("books_generated")
+
+TAGGED_HTML_DIRNAME = 'tagged_html'
+SENTENCES_DIRNAME = 'sentences'
 
 DICT_ENDPOINT = os.getenv("DICT_ENDPOINT")
 AUDIO_ENDPOINT = os.getenv("AUDIO_ENDPOINT")

@@ -2,9 +2,10 @@ import json
 import requests
 from flask import Flask, render_template, jsonify, request, Response, stream_with_context
 
-from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, CACHE_DIR, BOOKS_DIR, STATIC_VERSION
+from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, CACHE_DIR, BOOKS_DIR, STATIC_VERSION, \
+    TAGGED_HTML_DIRNAME, BOOKS_GENERATED_DIR
 from src.languages import SUPPORTED_LANGUAGES
-from src.utils.book_utils import get_book_slug_map, get_chapter_urls, get_book_objects
+from src.utils.book_utils import get_book_slug_map, get_prev_next_chapter_urls, get_book_objects, get_chapters, Chapter
 from src.utils.chapter_utils import tagged_html
 from src.utils.openai_translator_utils import ChatGptTranslator
 
@@ -27,39 +28,30 @@ def home():
 
 
 @app.get('/book/<book_slug>.html')
-def book(book_slug: str):
+def get_book(book_slug: str):
     book = get_book_slug_map()[book_slug]
     return render_template('book.html',
-                           book=book)
+                           book=book,
+                           chapters=get_chapters(book))
 
 
 @app.get('/book/<book_slug>/chapter-<chapter_no>.html')
-def chapter(book_slug: str, chapter_no: str):
-    chapter_file_name = f'chapter-{chapter_no}.html'
-    cache_file = CACHE_DIR.joinpath(book_slug).joinpath("tagged").joinpath(chapter_file_name)
-    sentences_file = CACHE_DIR.joinpath(book_slug).joinpath("sentences").joinpath(f"{chapter_no}.json")
-    if not cache_file.exists():
-        content = BOOKS_DIR.joinpath(book_slug).joinpath(chapter_file_name).read_text()
-        cache_file.parent.mkdir(parents=True, exist_ok=True)
-        tagged_content, sentences = tagged_html(content)
-        sentences_file.parent.mkdir(parents=True, exist_ok=True)
-        sentences_file.write_text(json.dumps(sentences, ensure_ascii=False))
-        cache_file.write_text(tagged_content)
-    else:
-        tagged_content = cache_file.read_text()
-
+def get_chapter(book_slug: str, chapter_no: str):
     book = get_book_slug_map()[book_slug]
-    prev_chapter_url, next_chapter_url = get_chapter_urls(book, int(chapter_no))
+    chapter = Chapter(int(chapter_no))
+    tagged_html_file = BOOKS_GENERATED_DIR.joinpath(book.slug).joinpath(TAGGED_HTML_DIRNAME).joinpath(chapter.html_file)
+
+    prev_chapter_url, next_chapter_url = get_prev_next_chapter_urls(book, int(chapter_no))
     return render_template('chapter.html',
                            book=book,
-                           chapter_no=chapter_no,
+                           chapter=chapter,
                            prev_chapter_url=prev_chapter_url,
                            next_chapter_url=next_chapter_url,
-                           content=tagged_content)
+                           content=tagged_html_file.read_text())
 
 
 @app.get('/dictionary')
-def dictionary():
+def get_dictionary():
     from_lang = request.args.get('from_lang', 'en')
     to_lang = request.args.get('to_lang')
     text = request.args.get('text')
@@ -85,7 +77,7 @@ def dictionary():
 
 
 @app.post('/translate')
-def translate():
+def get_translate():
     book_slug = request.json.get('book_slug')
     chapter_no = request.json.get('chapter_no')
     sentence_no = request.json.get('sentence_no')
@@ -121,7 +113,7 @@ def translate():
 
 
 @app.get('/play')
-def play():
+def get_play():
     pronunciation_id = request.args.get('id')
 
     headers = {
