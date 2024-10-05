@@ -49,7 +49,7 @@ def generate(book: Book):
 
     summary.word_total = len(book_words)
     summary_file.write_text(json.dumps(summary.model_dump(), ensure_ascii=False, indent=2))
-    words_file.write_text(json.dumps(list(book_words), ensure_ascii=False, indent=2))
+    words_file.write_text(json.dumps(sorted(list(book_words)), ensure_ascii=False, indent=2))
 
 
 if __name__ == '__main__':
