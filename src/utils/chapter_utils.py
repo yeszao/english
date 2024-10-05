@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Set
 import spacy
 from bs4 import BeautifulSoup
 from spacy.language import Language
@@ -15,19 +15,20 @@ def _get_words(text: str):
     return nlp(text)
 
 
-def tagged_html(input_html: str) -> (str, List[str]):
+def tagged_html(input_html: str) -> (str, List[str], Set[str]):
     soup = BeautifulSoup(input_html, 'html.parser')
 
     all_sentences = []
     sentence_no = 0
+    all_words = set()
     for tag in soup.find_all(['p', 'span', 'li']):
-        sentence_no, sentences = _process_tag(tag, sentence_no)
+        sentence_no, sentences = _process_tag(tag, sentence_no, all_words)
         all_sentences.extend(sentences)
 
-    return str(soup), all_sentences
+    return str(soup), all_sentences, all_words
 
 
-def _process_tag(tag, sentence_no) -> (int, List[str]):
+def _process_tag(tag, sentence_no, all_words) -> (int, List[str]):
     raw_sentences = []
     plain_text = tag.get_text().strip()
     if plain_text.strip() == '':
@@ -38,7 +39,9 @@ def _process_tag(tag, sentence_no) -> (int, List[str]):
     tagged_sentences = []
     for s in sentences:
         sentence_no += 1
-        tagged_sentences.append(f'<b><s id="{sentence_no}">{sentence_no}</s>{wrap_words(s)}</b> ')
+        wrapped, words = wrap_words(s)
+        all_words.update(words)
+        tagged_sentences.append(f'<b><s id="{sentence_no}">{sentence_no}</s>{wrapped}</b> ')
 
     tag.clear()
     tag.append(BeautifulSoup(' '.join(tagged_sentences), 'html.parser'))
@@ -46,12 +49,14 @@ def _process_tag(tag, sentence_no) -> (int, List[str]):
     return sentence_no, raw_sentences
 
 
-def wrap_words(text, start_tag='<i>', end_tag='</i>'):
+def wrap_words(text, start_tag='<i>', end_tag='</i>') -> (str, int):
     doc = _get_words(text)
     wrapped = ''
+    words = set()
 
     for token in doc:
         if token.is_alpha:
+            words.add(token.text)
             wrapped += f'{start_tag}{token.text}{end_tag}'
         else:
             # Keep punctuation and non-alpha tokens unchanged
@@ -60,7 +65,7 @@ def wrap_words(text, start_tag='<i>', end_tag='</i>'):
         if token.whitespace_:
             wrapped += token.whitespace_
 
-    return wrapped
+    return wrapped, words
 
 
 def wrap_words_and_entities(text, start_tag='<i>', end_tag='</i>'):
