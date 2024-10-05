@@ -56,7 +56,7 @@ def wrap_words(text, start_tag='<i>', end_tag='</i>') -> (str, int):
 
     for token in doc:
         if token.is_alpha:
-            words.add(token.text)
+            words.add(token.text.lower())
             wrapped += f'{start_tag}{token.text}{end_tag}'
         else:
             # Keep punctuation and non-alpha tokens unchanged
