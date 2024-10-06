@@ -13,7 +13,7 @@
 <div class="container box">
   <div class="row d-flex justify-content-center">
     {% for book in books %}
-      <div class="col">
+      <div class="col d-flex justify-content-center">
         <div class="card mt-3 border-0 text-center" style="width: 18rem;">
           <a href="{{ url_for('get_book', book_slug=book.slug) }}">
             <img src="{{ book.cover }}" class="card-img-top cover" alt="{{ book.name }}">
