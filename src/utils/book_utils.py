@@ -24,12 +24,14 @@ class Chapter:
     title: str
     html_file: str
     sentences_file: str
+    vocabulary_file:str
 
     def __init__(self, no):
         self.no = no
         self.title = f"Chapter {no}"
         self.html_file = f"{no}.html"
         self.sentences_file = f"{no}.json"
+        self.vocabulary_file = f"{no}.txt"
 
     def get_url(self, book_slug: str) -> str:
         return generate_chapter_url(book_slug, self.no)

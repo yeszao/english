@@ -20,7 +20,8 @@
       <h1 class="fs-1 mb-2 text-start">{{ book.name }}</h1>
       <p><i>{{ book.author }}</i></p>
       <p class="text-muted small">
-        Vocabulary: {{ summary.vocabulary_total }}
+        Vocabulary: {{ summary.vocabulary_total }},
+        Words: {{ summary.word_count }}
       </p>
       <p>{{ book.description }}</p>
       <a class="btn btn-outline-secondary read-button"

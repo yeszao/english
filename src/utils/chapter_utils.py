@@ -20,15 +20,17 @@ def tagged_html(input_html: str) -> (str, List[str], Set[str]):
 
     all_sentences = []
     sentence_no = 0
-    all_words = set()
+    all_vocabulary = set()
+    all_word_count = 0
     for tag in soup.find_all(['p', 'span', 'li']):
-        sentence_no, sentences = _process_tag(tag, sentence_no, all_words)
+        sentence_no, sentences, sentence_word_count = _process_tag(tag, sentence_no, all_vocabulary)
+        all_word_count += sentence_word_count
         all_sentences.extend(sentences)
 
-    return str(soup), all_sentences, all_words
+    return str(soup), all_sentences, all_vocabulary, all_word_count
 
 
-def _process_tag(tag, sentence_no, all_words) -> (int, List[str]):
+def _process_tag(tag, sentence_no, all_vocabulary) -> (int, List[str], int):
     raw_sentences = []
     plain_text = tag.get_text().strip()
     if plain_text.strip() == '':
@@ -37,26 +39,31 @@ def _process_tag(tag, sentence_no, all_words) -> (int, List[str]):
     sentences = _get_sentences(plain_text)
     raw_sentences.extend(sentences)
     tagged_sentences = []
+    sentence_word_count = 0
+
     for s in sentences:
         sentence_no += 1
-        wrapped, words = wrap_words(s)
-        all_words.update(words)
+        wrapped, vocabulary, word_count = wrap_words(s)
+        all_vocabulary.update(vocabulary)
+        sentence_word_count += word_count
         tagged_sentences.append(f'<b><s id="{sentence_no}">{sentence_no}</s>{wrapped}</b> ')
 
     tag.clear()
     tag.append(BeautifulSoup(' '.join(tagged_sentences), 'html.parser'))
 
-    return sentence_no, raw_sentences
+    return sentence_no, raw_sentences, sentence_word_count
 
 
-def wrap_words(text, start_tag='<i>', end_tag='</i>') -> (str, int):
+def wrap_words(text, start_tag='<i>', end_tag='</i>') -> (str, int, int):
     doc = _get_words(text)
     wrapped = ''
-    words = set()
+    vocabulary = set()
+    word_count = 0
 
     for token in doc:
         if token.is_alpha:
-            words.add(token.text.lower())
+            vocabulary.add(token.text.lower())
+            word_count += 1
             wrapped += f'{start_tag}{token.text}{end_tag}'
         else:
             # Keep punctuation and non-alpha tokens unchanged
@@ -65,7 +72,7 @@ def wrap_words(text, start_tag='<i>', end_tag='</i>') -> (str, int):
         if token.whitespace_:
             wrapped += token.whitespace_
 
-    return wrapped, words
+    return wrapped, vocabulary, word_count
 
 
 def wrap_words_and_entities(text, start_tag='<i>', end_tag='</i>'):
