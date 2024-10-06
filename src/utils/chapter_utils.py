@@ -15,7 +15,7 @@ def _get_words(text: str):
     return nlp(text)
 
 
-def tagged_html(input_html: str) -> (str, List[str], Set[str]):
+def tagged_html(input_html: str) -> (str, List[str], Set[str], int):
     soup = BeautifulSoup(input_html, 'html.parser')
 
     all_sentences = []
