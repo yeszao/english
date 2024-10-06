@@ -12,8 +12,8 @@ from src.utils.chapter_utils import tagged_html
 class Summary(BaseModel):
     sentence_total: int
     sentence_distribution: dict
-    word_total: int
-    word_distribution: dict
+    vocabulary_total: int
+    vocabulary_distribution: dict
 
 
 def prepare_root_dir():
@@ -27,7 +27,7 @@ def generate(book: Book):
 
     summary_file = generated_book_dir.joinpath("summary.json")
     words_file = generated_book_dir.joinpath("words.json")
-    summary = Summary(sentence_total=0, sentence_distribution={}, word_total=0, word_distribution={})
+    summary = Summary(sentence_total=0, sentence_distribution={}, vocabulary_total=0, vocabulary_distribution={})
 
     book_words = set()
     for chapter in get_chapters(book):
@@ -42,12 +42,12 @@ def generate(book: Book):
 
         summary.sentence_total += len(sentences)
         summary.sentence_distribution[chapter.no] = len(sentences)
-        summary.word_distribution[chapter.no] = len(chapter_words)
+        summary.vocabulary_distribution[chapter.no] = len(chapter_words)
         book_words.update(chapter_words)
 
         print(f"Generated <<{book.name}>> chapter #{chapter.no} [{chapter.no/book.chapter_number*100:.0f}%]")
 
-    summary.word_total = len(book_words)
+    summary.vocabulary_total = len(book_words)
     summary_file.write_text(json.dumps(summary.model_dump(), ensure_ascii=False, indent=2))
     words_file.write_text(json.dumps(sorted(list(book_words)), ensure_ascii=False, indent=2))
 

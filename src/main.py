@@ -30,7 +30,7 @@ def get_book(book_slug: str):
     return render_template('book.html',
                            book=book,
                            summary=summary,
-                           max_word_count=max(summary['word_distribution'].values()),
+                           max_word_count=max(summary['vocabulary_distribution'].values()),
                            chapters=get_chapters(book))
 
 
