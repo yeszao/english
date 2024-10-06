@@ -28,13 +28,13 @@
 .box {max-width: 640px;}
 h1 {text-align: center;}
 
-#chapter-main b, .offcanvas b {
+#chapter-main b {
     font-weight: normal;
 }
-#chapter-main i, .offcanvas i {
+#chapter-main i {
     font-style: normal;
 }
-#chapter-main s, .offcanvas s {
+#chapter-main s {
     text-decoration: none;
     text-align: center;
     cursor: pointer;

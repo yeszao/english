@@ -17,6 +17,8 @@
 <div class="container box mt-2 mb-4" id="chapter-main" data-chapter-no="{{ chapter.no }}"
      data-book-slug="{{ book.slug }}">
   {{ content|safe }}
+
+  {% include 'common/offcanvas.html' %}
 </div>
 
 <div class="container mt-4 mb-5 d-flex justify-content-center box">
@@ -29,9 +31,9 @@
   {% if next_chapter_url %}
     <a href="{{ next_chapter_url }}" class="btn btn-link">Next ></a>
   {% endif %}
-</div>
 
-{% include 'common/offcanvas.html' %}
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}?{{ static_version }}"></script>
