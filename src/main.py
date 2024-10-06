@@ -26,8 +26,11 @@ def home():
 @app.get('/<book_slug>.html')
 def get_book(book_slug: str):
     book = get_book_slug_map()[book_slug]
+    summary = json.loads(BOOKS_GENERATED_DIR.joinpath(book.slug).joinpath("summary.json").read_text())
     return render_template('book.html',
                            book=book,
+                           summary=summary,
+                           max_word_count=max(summary['word_distribution'].values()),
                            chapters=get_chapters(book))
 
 
