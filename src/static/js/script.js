@@ -137,7 +137,7 @@ function loadReadingProgressToButton(buttonSelector) {
         if (storedProgress) {
             const { chapterNo, sentenceId } = JSON.parse(storedProgress);
             buttonEl.href = `/${bookSlug}/${chapterNo}.html#${sentenceId}`;
-            buttonEl.innerText = `Continue from chapter ${chapterNo} sentence ${sentenceId}`;
+            buttonEl.innerText = `Continue Reading`;
         }
     });
 }

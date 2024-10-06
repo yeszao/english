@@ -20,7 +20,9 @@ def inject_global_variables():
 
 @app.get('/')
 def home():
-    return render_template('home.html', books=get_book_objects())
+    summary_file = BOOKS_GENERATED_DIR.joinpath("summary.json")
+    summary = json.loads(summary_file.read_text())
+    return render_template('home.html', books=get_book_objects(), summary=summary)
 
 
 @app.get('/<book_slug>.html')
