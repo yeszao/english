@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{ chapter.title }} of {{ book.name }} Read Online Free</title>
-  {% include 'common/head_meta.html' %}
+    <title>{{ chapter.title }} of {{ book.name }} Read Online Free - {{ sitename }}</title>
+    {% include 'common/head_meta.html' %}
 </head>
 <body>
 
 {% include 'common/navbar.html' %}
 
 <p class="text-center mt-5">
-  <a href="{{ url_for('get_book', book_slug=book.slug) }}" class="text-muted">
-    {{ book.name }}
-  </a>
+    <a href="{{ url_for('get_book', book_slug=book.slug) }}" class="text-muted">
+        {{ book.name }}
+    </a>
 </p>
 
 <div class="container box mt-2 mb-4" id="chapter-main" data-chapter-no="{{ chapter.no }}"
      data-book-slug="{{ book.slug }}">
-  {{ content|safe }}
+    {{ content|safe }}
 
-  {% include 'common/offcanvas.html' %}
+    {% include 'common/offcanvas.html' %}
 </div>
 
 <div class="container mt-4 mb-5 d-flex justify-content-center box">
-  {% if prev_chapter_url %}
-    <a href="{{ prev_chapter_url }}" class="btn btn-link">< Prev</a>
-  {% endif %}
+    {% if prev_chapter_url %}
+        <a href="{{ prev_chapter_url }}" class="btn btn-link">< Prev</a>
+    {% endif %}
 
-  <span class="d-block mx-3"></span>
+    <span class="d-block mx-3"></span>
 
-  {% if next_chapter_url %}
-    <a href="{{ next_chapter_url }}" class="btn btn-link">Next ></a>
-  {% endif %}
+    {% if next_chapter_url %}
+        <a href="{{ next_chapter_url }}" class="btn btn-link">Next ></a>
+    {% endif %}
 
 
 </div>

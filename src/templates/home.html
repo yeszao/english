@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Featured English Books</title>
-  {% include 'common/head_meta.html' %}
+    <title>{{ sitename }} - Featured Books For English Learning</title>
+    <meta name="description" content="Readin offers three classic English books, complete with word and sentence translations, tailored for English learners seeking to improve their language skills.">
+    {% include 'common/head_meta.html' %}
 </head>
 <body>
 
@@ -11,32 +12,32 @@
 <h1 class="text-center fs-1 my-5">Featured English Books</h1>
 
 <div class="container box">
-  <div class="row d-flex justify-content-center">
-    {% for book in books %}
-      <div class="col d-flex justify-content-center">
-        <div class="card mt-3 border-0 text-center" style="width: 18rem;">
-          <a href="{{ url_for('get_book', book_slug=book.slug) }}">
-            <img src="{{ book.cover }}" class="card-img-top cover" alt="{{ book.name }}">
-          </a>
-          <div class="card-body">
-            <h5 class="card-title">
-              <a href="{{ url_for('get_book', book_slug=book.slug) }}">
-                {{ book.name }}
-              </a>
-            </h5>
-            <p class="card-text">{{ book.author }}</p>
-            <p class="text-muted small">
-              Vocabulary: {{ summary.vocabulary_distribution[book.slug] }},
-              Words: {{ summary.word_count_distribution[book.slug] }}
-            </p>
-            <a class="btn btn-outline-secondary read-button"
-               data-book-slug="{{ book.slug }}"
-               href="{{ url_for('get_chapter', book_slug=book.slug, chapter_no=1) }}">Start Reading</a>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
+    <div class="row d-flex justify-content-center">
+        {% for book in books %}
+            <div class="col d-flex justify-content-center">
+                <div class="card mt-3 border-0 text-center" style="width: 18rem;">
+                    <a href="{{ url_for('get_book', book_slug=book.slug) }}">
+                        <img src="{{ book.cover }}" class="card-img-top cover" alt="{{ book.name }}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{ url_for('get_book', book_slug=book.slug) }}">
+                                {{ book.name }}
+                            </a>
+                        </h5>
+                        <p class="card-text">{{ book.author }}</p>
+                        <p class="text-muted small">
+                            Vocabulary: {{ summary.vocabulary_distribution[book.slug] }},
+                            Words: {{ summary.word_count_distribution[book.slug] }}
+                        </p>
+                        <a class="btn btn-outline-secondary read-button"
+                           data-book-slug="{{ book.slug }}"
+                           href="{{ url_for('get_chapter', book_slug=book.slug, chapter_no=1) }}">Start Reading</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 
