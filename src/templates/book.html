@@ -21,7 +21,7 @@
       <p><i>{{ book.author }}</i></p>
       <p class="text-muted small">
         Vocabulary: {{ summary.vocabulary_total }},
-        Words: {{ summary.word_count }}
+        Words: {{ summary.word_count|short_number }}
       </p>
       <p>{{ book.description }}</p>
       <a class="btn btn-outline-secondary read-button"

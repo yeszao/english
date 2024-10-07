@@ -5,9 +5,13 @@ from flask import Flask, render_template, jsonify, request, Response, stream_wit
 from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, STATIC_VERSION, CACHE_DIR, BOOKS_GENERATED_DIR
 from src.languages import SUPPORTED_LANGUAGES
 from src.utils.book_utils import get_book_slug_map, get_prev_next_chapter_urls, get_book_objects, get_chapters, Chapter
+from src.utils.number_utils import short_number
 from src.utils.openai_translator_utils import ChatGptTranslator
 
 app = Flask(__name__)
+
+
+app.jinja_env.filters['short_number'] = short_number
 
 
 @app.context_processor
