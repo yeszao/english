@@ -12,9 +12,7 @@
      data-publication="{{ news.publication }}"
      data-date="{{ news.date }}">
 
-    <h1 class="text-center mt-5">
-        {{ news.title }}
-    </h1>
+    {{ news.tagged_title|safe }}
 
     <p class="text-muted small my-4 text-center">
         Vocabulary: {{ news.vocabulary_count }}, Words: {{ news.word_count }}

@@ -143,15 +143,18 @@ if __name__ == '__main__':
         response = get_response(p)
         url, html = p['html_getter'](response['news_results'])
         title, content = p['parser'](html)
-        tagged_content, sentences, vocabulary, chapter_word_count = tagged_html(content)
+        tagged_content, sentences, vocabulary, word_count = tagged_html(content)
+        tagged_title, _, _, _ = tagged_html("<h1>" + title + "</h1>")
+
         translated_sentences = []
         news.append({
             "publication": p["name"],
             "title": title,
+            "tagged_title": tagged_title,
             "content": content,
-            "vocabulary_count": len(vocabulary),
-            "word_count": chapter_word_count,
             "tagged_content": tagged_content,
+            "vocabulary_count": len(vocabulary),
+            "word_count": word_count,
             "date": today,
             "url": url,
             "sentences": sentences,
