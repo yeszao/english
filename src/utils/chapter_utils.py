@@ -23,7 +23,11 @@ def tagged_html(input_html: str) -> (str, List[str], Set[str], int):
     all_vocabulary = set()
     all_word_count = 0
     for tag in soup.find_all(['p', 'span', 'li']):
-        sentence_no, sentences, sentence_word_count = _process_tag(tag, sentence_no, all_vocabulary)
+        try:
+            sentence_no, sentences, sentence_word_count = _process_tag(tag, sentence_no, all_vocabulary)
+        except Exception as e:
+            print(f'Error processing tag: {e}')
+            continue
         all_word_count += sentence_word_count
         all_sentences.extend(sentences)
 
@@ -34,7 +38,7 @@ def _process_tag(tag, sentence_no, all_vocabulary) -> (int, List[str], int):
     raw_sentences = []
     plain_text = tag.get_text().strip()
     if plain_text.strip() == '':
-        return sentence_no, raw_sentences
+        return sentence_no, raw_sentences, 0
 
     sentences = _get_sentences(plain_text)
     raw_sentences.extend(sentences)
