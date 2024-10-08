@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ news.title }} - {{ sitename }}</title>
+    {% include 'common/head_meta.html' %}
+</head>
+<body>
+
+{% include 'common/navbar.html' %}
+
+<div class="container box mt-2 mb-4" id="chapter-main"
+     data-publication="{{ news.publication }}"
+     data-date="{{ news.date }}">
+
+    <h1 class="text-center mt-5">
+        {{ news.title }}
+    </h1>
+
+    <p class="text-muted small my-4 text-center">
+        Vocabulary: {{ news.vocabulary_count }}, Words: {{ news.word_count }}
+    </p>
+
+    {{ news.tagged_content|safe }}
+
+    <p class="text-muted small mt-3 mb-5 text-end">from
+        <a href="{{ news.url }}" target="_blank" rel="nofollow">{{ news.publication }}</a>
+    </p>
+
+    {% include 'common/offcanvas.html' %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}?{{ static_version }}"></script>
+<script>
+
+    var offcanvasTitleEl = document.getElementById('offcanvasTitle');
+    var offcanvasEl = document.getElementById('offcanvasRoot');
+    var offcanvasContentEl = document.getElementById('offcanvasContent');
+    var offcanvasInstance = new bootstrap.Offcanvas(offcanvasEl);
+
+    var contentEl = document.getElementById('chapter-main');
+    var chapterNo = contentEl.getAttribute('data-chapter-no');
+    var bookSlug = contentEl.getAttribute('data-book-slug');
+
+    var wordEls = contentEl.getElementsByTagName('i');
+    var sentenceButtonEls = contentEl.getElementsByTagName("s");
+
+    for (var i = 0; i < wordEls.length; i++) {
+        wordEls[i].addEventListener('click', function () {
+            var to_lang = document.getElementById('language-selector').value;
+            if (!to_lang) {
+                alert('Please select target language at top right');
+                return;
+            }
+            offcanvasTitleEl.innerHTML = 'Searching...';
+            offcanvasContentEl.innerHTML = '';
+            offcanvasInstance.show();
+            searchDictionary(offcanvasTitleEl, offcanvasContentEl, this.innerText, to_lang);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initFontAndDarkButtons();
+        languageSelection();
+    });
+
+    // Track scroll position and save progress when the user scrolls or leaves the page
+    window.addEventListener('scroll', () => {
+        saveReadingProgress(bookSlug, chapterNo, getFirstVisibleSentenceId());
+    });
+
+    Array.from(sentenceButtonEls).forEach(function (p) {
+        p.addEventListener('click', function (event) {
+            p.classList.add('clicked');
+            var sentenceEl = event.currentTarget.parentElement;
+            var sentenceNo = event.currentTarget.getAttribute('id');
+
+            offcanvasTitleEl.innerHTML = '';
+            offcanvasContentEl.innerHTML = '';
+
+            const titleDiv = document.createElement('div');
+            titleDiv.classList.add('d-flex', 'justify-content-center');
+
+            const button = document.createElement('button');
+            button.innerText = 'Translate';
+            button.classList.add("btn", "btn-sm", "btn-outline-secondary", "me-2");
+            titleDiv.appendChild(button);
+
+            offcanvasTitleEl.appendChild(titleDiv);
+
+            // remove sentence no
+            offcanvasContentEl.innerHTML = sentenceEl.innerHTML;
+            offcanvasInstance.show();
+
+            button.addEventListener('click', function () {
+                textTranslate(button, sentenceNo, offcanvasContentEl);
+            });
+        });
+    });
+
+    async function textTranslate(button, sentenceNo, offcanvasContentEl) {
+        button.innerText = 'Translating...';
+        button.disabled = true;
+        var to_lang = document.getElementById('language-selector').value;
+        if (!to_lang) {
+            alert('Please select target language at top right');
+            return;
+        }
+        try {
+            // Assuming you have an API endpoint that provides the translation
+            const response = await fetch(`/translate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    book_slug: bookSlug,
+                    chapter_no: chapterNo,
+                    sentence_no: sentenceNo,
+                    to_lang: to_lang,
+                })
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                alert(data.error);
+                return;
+            }
+
+            offcanvasContentEl.innerHTML += '<div class="mt-3">' + data.translation + '</div>';
+            button.innerText = 'Translated';
+        } catch (error) {
+            offcanvasContentEl.innerHTML = '<p class="text-muted">Translate failed, please try again</p>';
+            button.disabled = false;
+        }
+    }
+
+</script>
+</body>
+</html>

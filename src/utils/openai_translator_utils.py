@@ -2,7 +2,7 @@ from src.utils.openai_utils import get_completions
 
 
 class ChatGptTranslator:
-    def __init__(self, book_name: str):
+    def __init__(self, book_name: str = ''):
         self.messages = [
             {
                 "role": "system",
@@ -10,14 +10,16 @@ class ChatGptTranslator:
             },
             {
                 "role": "assistant",
-                "content": f"Input a sentence from book {book_name}."
+                "content": f""
             },
-
             {
                 "role": "user",
                 "content": ""
             }
         ]
+
+        if book_name:
+            self.messages[1]["content"] = f"Input is a sentence from book {book_name}."
 
     def translate(self, text: str, lang: str) -> str:
         self.messages[0]["content"] = f"Please translate the sentence to langauge {lang}."

@@ -9,7 +9,19 @@
 
 {% include 'common/navbar.html' %}
 
-<h1 class="text-center fs-1 my-5">Featured English Books</h1>
+
+<div class="container box my-4">
+    <div class="row d-flex justify-content-center">
+        {%  for n in news %}
+        <p class="col small">
+            <span class="text-muted text-lighter">[{{ n.publication }}]</span>
+            <a href="{{ url_for('get_news', date=n.date, publication=n.publication) }}">
+                 {{ n.title }}
+            </a>
+        </p>
+        {% endfor %}
+    </div>
+</div>
 
 <div class="container box">
     <div class="row d-flex justify-content-center">
