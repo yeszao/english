@@ -18,7 +18,7 @@
         Vocabulary: {{ news.vocabulary_count }}, Words: {{ news.word_count }}
     </p>
 
-    {{ news.tagged_content|safe }}
+    {{ news.tagged_content_html|safe }}
 
     <p class="text-muted small mt-3 mb-5 text-end">from
         <a href="{{ news.url }}" target="_blank" rel="nofollow">{{ news.publication }}</a>

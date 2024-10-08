@@ -11,6 +11,12 @@ DICT_ENDPOINT = os.getenv("DICT_ENDPOINT")
 AUDIO_ENDPOINT = os.getenv("AUDIO_ENDPOINT")
 DICT_API_KEY = os.getenv("DICT_API_KEY")
 
+DB_HOST = os.getenv("DB_HOST", "192.168.1.110")
+DB_USER = os.getenv("DB_USER", "root")
+DB_PASS = os.getenv("DB_PASS")
+DB_NAME = os.getenv("DB_NAME", "readin")
+DB_PORT = os.getenv("DB_PORT", 3306)
+
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 OPENAI_KEY = os.getenv("OPENAI_KEY")
 NEWSAPI_KEY = os.getenv("NEWSAPI_KEY")

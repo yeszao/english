@@ -15,7 +15,7 @@
         {%  for n in news %}
         <p class="col small">
             <span class="text-muted text-lighter">[{{ n.publication }}]</span>
-            <a href="{{ url_for('get_news', date=n.date, publication=n.publication) }}">
+            <a href="{{ url_for('get_news', id=n.id) }}">
                  {{ n.title }}
             </a>
         </p>

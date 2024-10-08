@@ -27,7 +27,7 @@
 
 .box {max-width: 640px;}
 h1 {text-align: center; margin: 1rem 0;}
-img {max-width: 100%;}
+img {max-width: 100%; margin-bottom: 1rem;}
 
 #chapter-main b {
     font-weight: normal;

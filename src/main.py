@@ -5,9 +5,9 @@ from flask import Flask, render_template, jsonify, request, Response, stream_wit
 from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, STATIC_VERSION, CACHE_DIR, BOOKS_GENERATED_DIR
 from src.languages import SUPPORTED_LANGUAGES
 from src.utils.book_utils import get_book_slug_map, get_prev_next_chapter_urls, get_book_objects, get_chapters, Chapter
-from src.utils.date_utils import get_today, get_yesterday
 from src.utils.number_utils import short_number
 from src.utils.openai_translator_utils import ChatGptTranslator
+from src.db.news_dao import NewsDao
 
 app = Flask(__name__)
 
@@ -26,10 +26,7 @@ def inject_global_variables():
 
 @app.get('/')
 def home():
-    news_file = CACHE_DIR.joinpath("news").joinpath(f"{get_today()}.json")
-    if not news_file.exists():
-        news_file = CACHE_DIR.joinpath("news").joinpath(f"{get_yesterday()}.json")
-    news = json.loads(news_file.read_text())
+    news = NewsDao.get_latest()
 
     summary_file = BOOKS_GENERATED_DIR.joinpath("summary.json")
     summary = json.loads(summary_file.read_text())
@@ -150,14 +147,13 @@ def get_play():
     return Response(stream_with_context(generate()), content_type='audio/mp3')
 
 
-@app.get('/news/<date>-<publication>.html')
-def get_news(date: str, publication: str):
-    news_file = CACHE_DIR.joinpath("news").joinpath(date + ".json")
-    news = json.loads(news_file.read_text())
+@app.get('/news/<id>.html')
+def get_news(id: int):
+    news = NewsDao.get_by_id(id)
+    if not news:
+        return "News not found", 404
 
-    for n in news:
-        if n['publication'] == publication:
-            return render_template('news.html', news=n)
+    return render_template('news.html', news=news)
 
 
 if __name__ == '__main__':

@@ -1,13 +1,8 @@
-import datetime
-import json
 from lxml import etree
 import requests
 from bs4 import BeautifulSoup
 
-
-from src.config import SERPAPI_KEY, CACHE_DIR
-from src.utils.chapter_utils import tagged_html
-from src.utils.date_utils import get_today
+from src.config import SERPAPI_KEY
 from src.utils.openai_translator_utils import ChatGptTranslator
 
 translater = ChatGptTranslator()
@@ -31,7 +26,9 @@ def get_response(publication: dict):
     if publication["section_token"]:
         params["section_token"] = publication["section_token"]
 
-    return requests.get(url, params=params).json()
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    return response.json()
 
 
 def get_html(url):
@@ -115,51 +112,3 @@ def clean_attr(tags: list):
         elif tag.name == 'img':
             tag.attrs = {'src':  tag.get('src')}
 
-
-if __name__ == '__main__':
-    today = get_today()
-    NEWS_FILE_DIR = CACHE_DIR.joinpath("news").joinpath(get_today() + ".json")
-    NEWS_FILE_DIR.parent.mkdir(parents=True, exist_ok=True)
-
-    publications = [
-        {
-            "name": "CNN",
-            "publication_token": "CAAqBwgKMKHL9QowkqbaAg",
-            "section_token": "CAQqEAgAKgcICjChy_UKMJKm2gIw-9OmBQ",
-            "html_getter": get_cnn_html,
-            "parser": parse_cnn,
-        },
-        {
-            "name": "BBC",
-            "publication_token": "CAAqKQgKIiNDQklTRkFnTWFoQUtEbUppWXk1amJ5NTFheTl1WlhkektBQVAB",
-            "section_token": "",
-            "html_getter": get_bbc_html,
-            "parser": parse_bbc,
-        }
-    ]
-
-    news = []
-    for p in publications:
-        response = get_response(p)
-        url, html = p['html_getter'](response['news_results'])
-        title, content = p['parser'](html)
-        tagged_content, sentences, vocabulary, word_count = tagged_html(content)
-        tagged_title, _, _, _ = tagged_html("<h1>" + title + "</h1>")
-
-        translated_sentences = []
-        news.append({
-            "publication": p["name"],
-            "title": title,
-            "tagged_title": tagged_title,
-            "content": content,
-            "tagged_content": tagged_content,
-            "vocabulary_count": len(vocabulary),
-            "word_count": word_count,
-            "date": today,
-            "url": url,
-            "sentences": sentences,
-            "vocabulary": sorted(list(vocabulary)),
-        })
-        print(f"Downloaded [{p['name']}] {url}")
-
-    NEWS_FILE_DIR.write_text(json.dumps(news, indent=2, ensure_ascii=False))
