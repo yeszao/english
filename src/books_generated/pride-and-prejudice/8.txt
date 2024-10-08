@@ -110,6 +110,7 @@ censure
 certain
 certainly
 chance
+chapter
 charles
 cheapside
 chiefly
@@ -607,6 +608,7 @@ upon
 urged
 usually
 very
+viii
 voice
 vulgar
 walk

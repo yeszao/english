@@ -22,7 +22,7 @@ def tagged_html(input_html: str) -> (str, List[str], Set[str], int):
     sentence_no = 0
     all_vocabulary = set()
     all_word_count = 0
-    for tag in soup.find_all(['p', 'span', 'li', 'h1', 'h2']):
+    for tag in soup.find_all(['p', 'span', 'li', 'h1', 'h2', 'h3', 'h4', 'h5']):
         try:
             sentence_no, sentences, sentence_word_count = _process_tag(tag, sentence_no, all_vocabulary)
         except Exception as e:

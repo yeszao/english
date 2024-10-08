@@ -2563,6 +2563,8 @@ idiotically
 idols
 if
 ignorant
+ii
+iii
 ill
 illuminated
 illusion
@@ -2769,8 +2771,10 @@ italian
 item
 its
 itself
+iv
 ivory
 ivy
+ix
 jackson
 jail
 jailor
@@ -5458,6 +5462,7 @@ vestibule
 vestibules
 vestige
 veteran
+vi
 vibrant
 vicariously
 vicinity
@@ -5467,6 +5472,8 @@ view
 vigil
 vigorously
 vigour
+vii
+viii
 village
 villages
 villainous

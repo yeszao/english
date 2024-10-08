@@ -103,6 +103,7 @@ celerity
 certainly
 chance
 change
+chapter
 character
 charles
 charm

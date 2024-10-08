@@ -1,14 +1,14 @@
 {
-  "word_count": 199487,
-  "vocabulary_total": 10866,
+  "word_count": 199639,
+  "vocabulary_total": 10924,
   "word_count_distribution": {
-    "the-great-gatsby": 48423,
-    "animal-farm": 30122,
-    "pride-and-prejudice": 120942
+    "animal-farm": 30147,
+    "the-great-gatsby": 48432,
+    "pride-and-prejudice": 121060
   },
   "vocabulary_distribution": {
-    "the-great-gatsby": 5759,
-    "animal-farm": 3894,
-    "pride-and-prejudice": 6203
+    "animal-farm": 3903,
+    "the-great-gatsby": 5766,
+    "pride-and-prejudice": 6261
   }
 }

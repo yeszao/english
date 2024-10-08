@@ -92,6 +92,7 @@ case
 caught
 certainly
 chance
+chapter
 character
 children
 circumstances
@@ -617,6 +618,7 @@ wretched
 write
 writing
 wrote
+xlix
 year
 years
 yes

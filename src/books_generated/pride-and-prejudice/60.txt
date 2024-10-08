@@ -82,6 +82,7 @@ care
 carrying
 catherine
 certainly
+chapter
 charlotte
 charmingly
 choose
@@ -294,6 +295,7 @@ love
 loved
 loves
 lucas
+lx
 lydia
 made
 make

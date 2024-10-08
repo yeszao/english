@@ -87,6 +87,7 @@ cards
 cared
 catherine
 certainly
+chapter
 charming
 cheat
 cheerfulness
@@ -354,6 +355,7 @@ lover
 luck
 luckiest
 lucky
+lv
 lydia
 made
 make
