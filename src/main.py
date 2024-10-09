@@ -20,7 +20,7 @@ def inject_global_variables():
     return dict(
         static_version=STATIC_VERSION,
         languages=SUPPORTED_LANGUAGES,
-        sitename = "Readin",
+        sitename = "Readmain",
     )
 
 
