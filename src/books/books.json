@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Animal Farm",
     "slug": "animal-farm",
     "author": "George Orwell",
@@ -8,6 +9,7 @@
     "description": "Animal Farm is a satirical tale where farm animals rebel against humans, only to face corruption and tyranny, highlighting the dangers of power and totalitarian regimes."
   },
   {
+    "id": 2,
     "name": "The Great Gatsby",
     "slug": "the-great-gatsby",
     "author": "F. Scott Fitzgerald",
@@ -16,6 +18,7 @@
     "description": "The Great Gatsby is a story of love, wealth, and ambition in the 1920s, where Jay Gatsby's quest to rekindle a lost romance reveals the dark side of the American Dream."
   },
   {
+    "id": 3,
     "name": "Pride and Prejudice",
     "slug": "pride-and-prejudice",
     "author": "Jane Austen",

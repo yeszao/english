@@ -9,6 +9,7 @@ from src.config import BOOKS_DIR
 
 @dataclass
 class Book:
+    id: int
     author: str
     name: str
     slug: str
