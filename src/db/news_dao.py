@@ -14,7 +14,7 @@ class NewsDao:
     @staticmethod
     def get_latest(size: int = 2) -> List[News]:
         with DbSession() as session:
-            return session.query(News).order_by(News.created_at.desc()).limit(size).all()
+            return session.query(News).order_by(News.date.desc()).limit(size).all()
 
     @staticmethod
     def get_by_id(news_id: int) -> News:

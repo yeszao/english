@@ -2,9 +2,12 @@ import json
 import requests
 from flask import Flask, render_template, jsonify, request, Response, stream_with_context
 
-from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, STATIC_VERSION, CACHE_DIR, BOOKS_GENERATED_DIR
+from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, STATIC_VERSION, CACHE_DIR, BOOKS_GENERATED_DIR, \
+    LOG_DIR
 from src.languages import SUPPORTED_LANGUAGES
 from src.utils.book_utils import get_book_slug_map, get_prev_next_chapter_urls, get_book_objects, get_chapters, Chapter
+from src.utils.date_utils import time_ago
+from src.utils.logging_utils import init_logging
 from src.utils.number_utils import short_number
 from src.utils.openai_translator_utils import ChatGptTranslator
 from src.db.news_dao import NewsDao
@@ -13,6 +16,7 @@ app = Flask(__name__)
 
 
 app.jinja_env.filters['short_number'] = short_number
+app.jinja_env.filters['time_ago'] = time_ago
 
 
 @app.context_processor
@@ -157,4 +161,5 @@ def get_news(id: int):
 
 
 if __name__ == '__main__':
+    init_logging(LOG_DIR.joinpath("web.log"))
     app.run(debug=True)

@@ -49,6 +49,7 @@
                 <a href="{{ url_for('get_news', id=n.id) }}">
                     {{ n.title }}
                 </a>
+                <span class="text-small text-muted">{{ n.date|time_ago }}</span>
             </li>
         {% endfor %}
     </ol>
