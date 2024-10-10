@@ -14,7 +14,6 @@ from src.db.news_dao import NewsDao
 
 app = Flask(__name__)
 
-
 app.jinja_env.filters['short_number'] = short_number
 app.jinja_env.filters['time_ago'] = time_ago
 
@@ -24,7 +23,7 @@ def inject_global_variables():
     return dict(
         static_version=STATIC_VERSION,
         languages=SUPPORTED_LANGUAGES,
-        sitename = "Readmain",
+        sitename="Readmain",
     )
 
 
@@ -149,6 +148,17 @@ def get_play():
 
     # Serve the M4A file directly from memory
     return Response(stream_with_context(generate()), content_type='audio/mp3')
+
+
+@app.get('/news.html')
+def get_all_news():
+    page = request.args.get('page', 1, int)
+    all_news = NewsDao.get_all_news(page, size=10)
+    return render_template('news-home.html',
+                           all_news=all_news,
+                           page=page,
+                           news_count=len(all_news)
+                           )
 
 
 @app.get('/news/<id>.html')

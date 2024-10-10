@@ -25,3 +25,10 @@ class NewsDao:
     def get_by_url(url: str) -> News:
         with DbSession() as session:
             return session.query(News).filter(News.url == url).first()
+
+    @staticmethod
+    def get_all_news(page: int, size: int) -> List[News]:
+        with DbSession() as session:
+            page = max(1, page)
+            offset = (page - 1) * size
+            return session.query(News).order_by(News.date.desc()).offset(offset).limit(size).all()
