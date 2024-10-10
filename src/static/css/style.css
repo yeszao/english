@@ -83,14 +83,3 @@ blockquote p {
     width: var(--book-cover-width);
     height: calc(var(--book-cover-width) * 1.5);
 }
-
-.setting-btn {
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.6rem;
-    margin: 0;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: transparent;
-}

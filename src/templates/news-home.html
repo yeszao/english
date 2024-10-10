@@ -28,7 +28,7 @@
         <nav aria-label="...">
             <ul class="pagination justify-content-center">
                 {% if page > 1 %}
-                <li class="page-item">
+                <li class="page-item me-3">
                     <a href="{{ url_for('get_all_news', page=page-1) }}">Prev</a>
                 </li>
                 {% endif %}
