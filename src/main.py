@@ -26,6 +26,7 @@ def inject_global_variables():
         user_settings={
             "fontSize": request.cookies.get('fontSize', '16px'),
             "darkMode": request.cookies.get('darkMode', 'light'),
+            "language": request.cookies.get('language'),
         },
         sitename="Readmain",
     )

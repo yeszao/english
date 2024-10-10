@@ -7,7 +7,7 @@
     <link rel="canonical" href="{{ url_for('get_all_news') }}" />
     {% include 'common/head_meta.html' %}
 </head>
-<body>
+<body class="{% if user_settings.darkMode == 'dark' %}bg-dark text-light{% endif %}" style="font-size: {{ user_settings.fontSize }};">
 
 {% include 'common/navbar.html' %}
 

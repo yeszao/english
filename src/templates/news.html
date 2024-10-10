@@ -4,7 +4,7 @@
     <title>{{ news.title }} - {{ sitename }}</title>
     {% include 'common/head_meta.html' %}
 </head>
-<body>
+<body class="{% if user_settings.darkMode == 'dark' %}bg-dark text-light{% endif %}" style="font-size: {{ user_settings.fontSize }};">
 
 {% include 'common/navbar.html' %}
 

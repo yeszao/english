@@ -9,7 +9,7 @@
                 <select class="form-select form-select-sm w-auto d-inline-block" id="language-selector" aria-label="">
                     <option value="" selected>Language</option>
                     {% for l in languages %}
-                        <option value="{{ l.code }}">{{ l.nativeName }}</option>
+                        <option value="{{ l.code }}" {% if user_settings.language ==l.code %}selected{% endif %}>{{ l.nativeName }}</option>
                     {% endfor %}
                 </select>
             </div>

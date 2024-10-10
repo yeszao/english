@@ -103,26 +103,11 @@ function initFontAndDarkButtons() {
     });
 }
 
-function languageSelection() {
+function initLanguageSelection() {
     const languageSelector = document.getElementById('language-selector');
 
-    var currentLanguage = localStorage.getItem('language');
-    if (currentLanguage) {
-        languageSelector.value = currentLanguage;
-
-        // set selected for the option
-        var options = languageSelector.options;
-        for (var i = 0; i < options.length; i++) {
-            if (options[i].value === currentLanguage) {
-                options[i].setAttribute('selected', 'selected');
-            } else {
-                options[i].removeAttribute('selected');
-            }
-        }
-    }
-
     languageSelector.addEventListener('change', () => {
-        localStorage.setItem('language', languageSelector.value);
+        setCookie('language', languageSelector.value);
     });
 }
 
