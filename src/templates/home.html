@@ -45,11 +45,8 @@
     <ol>
         {%  for n in news %}
             <li class="small">
-                <span class="text-muted text-lighter">[{{ n.publication }}]</span>
-                <a href="{{ url_for('get_news', id=n.id) }}">
-                    {{ n.title }}
-                </a>
-                <span class="text-small text-muted">{{ n.date|time_ago }}</span>
+                <a href="{{ url_for('get_news', id=n.id) }}">{{ n.title }}</a>
+                <span class="small text-muted fw-light"> - {{ n.publication }}, {{ n.date|time_ago }}</span>
             </li>
         {% endfor %}
     </ol>

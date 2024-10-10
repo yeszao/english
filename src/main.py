@@ -3,7 +3,7 @@ import requests
 from flask import Flask, render_template, jsonify, request, Response, stream_with_context
 
 from src.config import DICT_API_KEY, DICT_ENDPOINT, AUDIO_ENDPOINT, STATIC_VERSION, CACHE_DIR, BOOKS_GENERATED_DIR, \
-    LOG_DIR
+    LOG_DIR, HOME_NEWS_NUM
 from src.languages import SUPPORTED_LANGUAGES
 from src.utils.book_utils import get_book_slug_map, get_prev_next_chapter_urls, get_book_objects, get_chapters, Chapter
 from src.utils.date_utils import time_ago
@@ -30,7 +30,7 @@ def inject_global_variables():
 
 @app.get('/')
 def home():
-    news = NewsDao.get_latest()
+    news = NewsDao.get_latest(HOME_NEWS_NUM)
 
     summary_file = BOOKS_GENERATED_DIR.joinpath("summary.json")
     summary = json.loads(summary_file.read_text())

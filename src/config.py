@@ -20,8 +20,8 @@ DB_PORT = os.getenv("DB_PORT", 3306)
 
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 OPENAI_KEY = os.getenv("OPENAI_KEY")
-NEWSAPI_KEY = os.getenv("NEWSAPI_KEY")
-NEWSDATA_KEY = os.getenv("NEWSDATA_KEY")
+
 SERPAPI_KEY = os.getenv("SERPAPI_KEY")
+HOME_NEWS_NUM = os.getenv("HOME_NEWS_NUM", 3)
 
 STATIC_VERSION = os.getenv("STATIC_VERSION", "1")
