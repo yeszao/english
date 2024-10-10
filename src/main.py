@@ -23,6 +23,10 @@ def inject_global_variables():
     return dict(
         static_version=STATIC_VERSION,
         languages=SUPPORTED_LANGUAGES,
+        user_settings={
+            "fontSize": request.cookies.get('fontSize', '16px'),
+            "darkMode": request.cookies.get('darkMode', 'light'),
+        },
         sitename="Readmain",
     )
 

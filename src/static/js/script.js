@@ -51,17 +51,28 @@ function batchAction(inputList, action) {
     Array.from(inputList).forEach(item => action(item));
 }
 
-function initFontAndDarkButtons() {
-    // Get stored values from localStorage
-    let fontSize = localStorage.getItem('fontSize') || '16px';
-    let darkMode = localStorage.getItem('darkMode') || 'light';
-
-    // Apply initial values
-    document.body.style.fontSize = fontSize;
-    if (darkMode === 'dark') {
-        document.body.classList.add('bg-dark', 'text-light');
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
     }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
 
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const cookiesArray = document.cookie.split(';');
+    for (let i = 0; i < cookiesArray.length; i++) {
+        let cookie = cookiesArray[i];
+        while (cookie.charAt(0) === ' ') cookie = cookie.substring(1, cookie.length);
+        if (cookie.indexOf(nameEQ) === 0) return cookie.substring(nameEQ.length, cookie.length);
+    }
+    return null;
+}
+
+function initFontAndDarkButtons() {
     // Button elements
     const decreaseFontBtn = document.getElementById('decreaseFont');
     const increaseFontBtn = document.getElementById('increaseFont');
@@ -72,7 +83,7 @@ function initFontAndDarkButtons() {
         let currentSize = parseFloat(getComputedStyle(document.body).fontSize);
         let newSize = currentSize - 1;
         document.body.style.fontSize = newSize + 'px';
-        localStorage.setItem('fontSize', newSize + 'px');
+        setCookie('fontSize', newSize + 'px');
     });
 
     // Increase font size
@@ -80,7 +91,7 @@ function initFontAndDarkButtons() {
         let currentSize = parseFloat(getComputedStyle(document.body).fontSize);
         let newSize = currentSize + 1;
         document.body.style.fontSize = newSize + 'px';
-        localStorage.setItem('fontSize', newSize + 'px');
+        setCookie('fontSize', newSize + 'px');
     });
 
     // Toggle dark mode
@@ -88,7 +99,7 @@ function initFontAndDarkButtons() {
         document.body.classList.toggle('bg-dark');
         document.body.classList.toggle('text-light');
         darkMode = document.body.classList.contains('bg-dark') ? 'dark' : 'light';
-        localStorage.setItem('darkMode', darkMode);
+        setCookie('darkMode', darkMode);
     });
 }
 
