@@ -8,38 +8,34 @@
 
 {% include 'common/navbar.html' %}
 
-<p class="text-center mt-5">
-    <a href="{{ url_for('get_book', book_slug=book.slug) }}" class="text-muted">
-        {{ book.name }}
-    </a>
-</p>
+<main>
+    <section class="text-center mt-5">
+        <a href="{{ url_for('get_book', book_slug=book.slug) }}" class="text-muted">
+            {{ book.name }}
+        </a>
+    </section>
 
-<div class="container box mt-2 mb-4" id="chapter-main" data-chapter-no="{{ chapter.no }}"
-     data-book-slug="{{ book.slug }}">
-    {{ content|safe }}
+    <article class="container box mt-2 mb-4" id="chapter-main" data-chapter-no="{{ chapter.no }}"
+         data-book-slug="{{ book.slug }}">
+        {{ content|safe }}
+    </article>
 
-    {% include 'common/offcanvas.html' %}
-    {% include 'common/modal.html' %}
-</div>
+    <section class="container mt-4 mb-5 d-flex justify-content-center box">
+        {% if prev_chapter_url %}
+            <a href="{{ prev_chapter_url }}" class="btn btn-link">< Prev</a>
+        {% endif %}
 
-<div class="container mt-4 mb-5 d-flex justify-content-center box">
-    {% if prev_chapter_url %}
-        <a href="{{ prev_chapter_url }}" class="btn btn-link">< Prev</a>
-    {% endif %}
+        <span class="d-block mx-3"></span>
 
-    <span class="d-block mx-3"></span>
-
-    {% if next_chapter_url %}
-        <a href="{{ next_chapter_url }}" class="btn btn-link">Next ></a>
-    {% endif %}
+        {% if next_chapter_url %}
+            <a href="{{ next_chapter_url }}" class="btn btn-link">Next ></a>
+        {% endif %}
 
 
-</div>
+    </section>
+</main>
+
 {% include 'common/footer.html' %}
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
-<script src="{{ url_for('static', filename='js/script.js') }}?{{ static_version }}"></script>
 <script>
 
     var offcanvasTitleEl = document.getElementById('offcanvasTitle');

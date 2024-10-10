@@ -8,29 +8,26 @@
 
 {% include 'common/navbar.html' %}
 
-<div class="container box mt-5 mb-4" id="chapter-main"
-     data-publication="{{ news.publication }}"
-     data-date="{{ news.date }}">
+<main>
+    <article class="container box mt-5 mb-4" id="chapter-main"
+         data-publication="{{ news.publication }}"
+         data-date="{{ news.date }}">
 
-    {{ news.tagged_title|safe }}
+        {{ news.tagged_title|safe }}
 
-    <p class="text-muted small my-4 text-center">
-        Vocabulary: {{ news.vocabulary_count }}, Words: {{ news.word_count }}
-    </p>
+        <p class="text-muted small my-4 text-center">
+            Vocabulary: {{ news.vocabulary_count }}, Words: {{ news.word_count }}
+        </p>
 
-    {{ news.tagged_content_html|safe }}
+        {{ news.tagged_content_html|safe }}
 
-    <p class="text-muted small mt-3 mb-5 text-end">from
-        <a href="{{ news.url }}" target="_blank" rel="nofollow">{{ news.publication }}</a>
-    </p>
-
-    {% include 'common/offcanvas.html' %}
-</div>
+        <p class="text-muted small mt-3 mb-5 text-end">from
+            <a href="{{ news.url }}" target="_blank" rel="nofollow">{{ news.publication }}</a>
+        </p>
+    </article>
+</main>
 
 {% include 'common/footer.html' %}
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
-<script src="{{ url_for('static', filename='js/script.js') }}?{{ static_version }}"></script>
 <script>
 
     var offcanvasTitleEl = document.getElementById('offcanvasTitle');

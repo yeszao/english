@@ -8,58 +8,55 @@
 <body>
 
 {% include 'common/navbar.html' %}
-
-
-<div class="container box my-5">
-  <div class="d-flex">
-    <div class="flex-shrink-0 cover-width">
-      <img src="{{ book.cover }}" class="card-img-top cover" alt="{{ book.name }}">
-    </div>
-
-    <div class="flex-grow-1 ms-3">
-      <h1 class="fs-1 mb-2 text-start">{{ book.name }}</h1>
-      <p><i>{{ book.author }}</i></p>
-      <p class="text-muted small">
-        Vocabulary: {{ summary.vocabulary_total }},
-        Words: {{ summary.word_count|short_number }}
-      </p>
-      <p>{{ book.description }}</p>
-      <a class="btn btn-outline-secondary read-button"
-         data-book-slug="{{ book.slug }}"
-         href="{{ url_for('get_chapter', book_slug=book.slug, chapter_no=1) }}">Start Reading</a>
-    </div>
-  </div>
-</div>
-
-<div class="container box mb-5">
-  <div class="d-flex justify-content-between small align-items-baseline">
-    <h2 class="fs-4 text-start d-inline-block">Chapters</h2>
-    <span class="text-muted small">Vocabulary</span>
-  </div>
-  <ul class="list-group list-group-flush">
-    {% for chapter in chapters %}
-      <li class="list-group-item d-flex justify-content-between align-items-baseline px-0">
-        <a href="{{ chapter.get_url(book.slug) }}">{{ chapter.title }}</a>
-
-        <div class="progress w-25" role="progressbar" aria-label="Info example"
-             style="height: 0.85rem"
-             aria-valuenow="{{ summary.vocabulary_distribution[chapter.no|string] }}"
-             aria-valuemin="0"
-             aria-valuemax="{{ max_word_count }}">
-          <div class="progress-bar bg-secondary" style="width: {{ summary.vocabulary_distribution[chapter.no|string] * 100 // max_word_count }}%">
-      {{ summary.vocabulary_distribution[chapter.no|string] }}
-          </div>
+<main>
+    <section class="container box my-5">
+      <div class="d-flex">
+        <div class="flex-shrink-0 cover-width">
+          <img src="{{ book.cover }}" class="card-img-top cover" alt="{{ book.name }}">
         </div>
 
-      </li>
-    {% endfor %}
-  </ul>
-</div>
+        <div class="flex-grow-1 ms-3">
+          <h1 class="fs-1 mb-2 text-start">{{ book.name }}</h1>
+          <p><i>{{ book.author }}</i></p>
+          <p class="text-muted small">
+            Vocabulary: {{ summary.vocabulary_total }},
+            Words: {{ summary.word_count|short_number }}
+          </p>
+          <p>{{ book.description }}</p>
+          <a class="btn btn-outline-secondary read-button"
+             data-book-slug="{{ book.slug }}"
+             href="{{ url_for('get_chapter', book_slug=book.slug, chapter_no=1) }}">Start Reading</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container box mb-5">
+      <div class="d-flex justify-content-between small align-items-baseline">
+        <h2 class="fs-4 text-start d-inline-block">Chapters</h2>
+        <span class="text-muted small">Vocabulary</span>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for chapter in chapters %}
+          <li class="list-group-item d-flex justify-content-between align-items-baseline px-0">
+            <a href="{{ chapter.get_url(book.slug) }}">{{ chapter.title }}</a>
+
+            <div class="progress w-25" role="progressbar" aria-label="Info example"
+                 style="height: 0.85rem"
+                 aria-valuenow="{{ summary.vocabulary_distribution[chapter.no|string] }}"
+                 aria-valuemin="0"
+                 aria-valuemax="{{ max_word_count }}">
+              <div class="progress-bar bg-secondary" style="width: {{ summary.vocabulary_distribution[chapter.no|string] * 100 // max_word_count }}%">
+          {{ summary.vocabulary_distribution[chapter.no|string] }}
+              </div>
+            </div>
+
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+</main>
 
 {% include 'common/footer.html' %}
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
-<script src="{{ url_for('static', filename='js/script.js') }}?{{ static_version }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         initFontAndDarkButtons();
