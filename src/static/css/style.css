@@ -29,6 +29,7 @@
 .box {max-width: 720px;}
 h1 {text-align: center; margin: 1rem 0;}
 img {max-width: 100%; margin-bottom: 1rem;}
+a {text-decoration: none;}
 
 #chapter-main b {
     font-weight: normal;
@@ -84,10 +85,10 @@ blockquote p {
 }
 
 .setting-btn {
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     font-size: 1.6rem;
-    margin: 4rem 1rem;
+    margin: 0;
     padding: 0;
     border: none;
     border-radius: 50%;

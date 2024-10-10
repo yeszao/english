@@ -1,3 +1,10 @@
-<div class="container box mt-2 d-flex justify-content-between">
-    <a class="text-muted small" href="/">{{ sitename }}</a>
-</div>
+<nav class="navbar navbar-dark bg-dark sticky-top">
+    <div class="container box">
+        <a class="navbar-brand" href="/">{{ sitename }}</a>
+        <form class="d-flex" role="search">
+            <button type="button" class="btn btn-outline-success btn-sm" id="setting-btn"
+                    data-bs-toggle="modal" data-bs-target="#settings-modal"
+            >Settings</button>
+        </form>
+    </div>
+</nav>
