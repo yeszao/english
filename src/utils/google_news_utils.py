@@ -13,79 +13,49 @@ headers = {
 }
 
 
-def get_response(publication: dict):
+def get_google_news():
     url = "https://serpapi.com/search"
     params = {
         "api_key": SERPAPI_KEY,
         "engine": "google_news",
         "gl": "us",
         "hl": "en",
-        "publication_token": publication["publication_token"],
+        "topic_token": "CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB",  # world news
     }
-
-    if publication["section_token"]:
-        params["section_token"] = publication["section_token"]
 
     response = requests.get(url, params=params)
     response.raise_for_status()
     return response.json()
 
 
-def get_html(url):
-    response = requests.get(url, headers=headers)
-    return response.text
+def get_html(url) -> str:
+    return requests.get(url, headers=headers).text
 
 
-def get_cnn_html(news_results) -> (str, str):
-    url = ''
-    for r in news_results:
-        if '/video/' not in r['link']:
-            url = r['link']
-            break
-
-    return url, get_html(url)
+def check_url(r: dict) -> str:
+    black_uri = ('/live/', '/live-news/', '/video/')
+    link = r['highlight']['link']
+    return link if not any(uri in link for uri in black_uri) else None
 
 
-def parse_cnn(html: str):
+def parse_cnn(html: str) -> str:
     if not html:
-        return None
+        return ''
 
     tree = etree.fromstring(html, etree.HTMLParser())
-    title = tree.xpath("//h1/text()")[0].strip()
     content = tree.xpath('//div[@class="article__content"]')[0]
     soup = BeautifulSoup(etree.tostring(content), 'html.parser')
-
     tags = soup.find_all(['p', 'img'])
 
     clean_attr(tags)
-    content_html = ''.join(str(tag) for tag in tags)
-
-    return title, content_html
+    return ''.join(str(tag) for tag in tags)
 
 
-def get_bbc_html(news_results) -> (str, str):
-    url = ''
-    for r in news_results:
-        if '/news/' in r['link']:
-            url = r['link']
-            break
-
-    return url, get_html(url)
-
-
-def parse_bbc(html: str):
+def parse_bbc(html: str) -> str:
     if not html:
-        return None
+        return ''
 
     tree = etree.fromstring(html, etree.HTMLParser())
-    if tree.xpath("//h1/text()"):
-        title = tree.xpath("//h1/text()")[0].strip()
-    elif tree.xpath("//h1/span/text()"):
-        title = tree.xpath("//h1/span/text()")[0].strip()
-    else:
-        print("Title not found")
-        return None
-
     texts = tree.xpath('//article//div[@data-component="text-block"]')
     all_tags = []
     for text in texts[:-1]:
@@ -94,8 +64,7 @@ def parse_bbc(html: str):
         all_tags.extend(tags)
 
     clean_attr(all_tags)
-    content_html = ''.join(str(tag) for tag in all_tags)
-    return title, content_html
+    return ''.join(str(tag) for tag in all_tags)
 
 
 def clean_attr(tags: list):

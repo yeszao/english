@@ -22,6 +22,7 @@ class News(Base):
     word_count = Column(Integer, nullable=False, default=0)
     sentences = Column(Text, nullable=False, default='')
     vocabulary = Column(Text, nullable=False, default='')
+    date = Column(DateTime, nullable=False, index=True)
 
 
 if __name__ == '__main__':
