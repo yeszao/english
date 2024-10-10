@@ -1,14 +1,3 @@
 <div class="container box mt-2 d-flex justify-content-between">
     <a class="text-muted small" href="/">{{ sitename }}</a>
-    <div class="d-block-inline">
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="decreaseFont">A-</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="increaseFont">A+</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="toggleDarkMode">Dark</button>
-        <select class="form-select form-select-sm w-auto d-inline-block" id="language-selector" aria-label="">
-            <option value="" selected>Language</option>
-            {% for l in languages %}
-            <option value="{{ l.code }}">{{ l.nativeName }}</option>
-            {% endfor %}
-        </select>
-    </div>
 </div>

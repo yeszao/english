@@ -10,7 +10,8 @@
 .bg-dark .offcanvas,
 .bg-dark .offcanvas-header,
 .bg-dark .offcanvas-body,
-.bg-dark .form-select
+.bg-dark .form-select,
+.bg-dark .modal-content
 {
     background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
     border-color: var(--bs-btn-color) !important;
@@ -80,4 +81,15 @@ blockquote p {
 .cover {
     width: var(--book-cover-width);
     height: calc(var(--book-cover-width) * 1.5);
+}
+
+.setting-btn {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.6rem;
+    margin: 4rem 1rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
 }

@@ -1,0 +1,18 @@
+<div class="modal fade" tabindex="-1" id="settings-modal" aria-labelledby="settings-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-body text-center">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="decreaseFont">A-</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="increaseFont">A+</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="toggleDarkMode">Dark</button>
+                <select class="form-select form-select-sm w-auto d-inline-block" id="language-selector" aria-label="">
+                    <option value="" selected>Language</option>
+                    {% for l in languages %}
+                        <option value="{{ l.code }}">{{ l.nativeName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
