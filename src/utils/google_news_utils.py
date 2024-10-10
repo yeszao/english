@@ -1,6 +1,6 @@
 from lxml import etree
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Comment
 
 from src.config import SERPAPI_KEY
 from src.utils.openai_translator_utils import ChatGptTranslator
@@ -56,11 +56,11 @@ def parse_bbc(html: str) -> str:
         return ''
 
     tree = etree.fromstring(html, etree.HTMLParser())
-    texts = tree.xpath('//article//div[@data-component="text-block"]')
+    texts = tree.xpath('//article//div[@data-component="text-block" or @data-component="image-block" or @data-component="subheadline-block"]')
     all_tags = []
-    for text in texts[:-1]:
+    for text in texts:
         soup = BeautifulSoup(etree.tostring(text), 'html.parser')
-        tags = soup.find_all(['p', 'img'])
+        tags = soup.find_all(['p', 'img', 'h2', 'h3'])
         all_tags.extend(tags)
 
     clean_attr(all_tags)
@@ -71,13 +71,18 @@ def clean_attr(tags: list):
     for tag in tags:
         if tag.name == 'p':
             tag.attrs = {}
+            remove_comment(tag)
+
             for sub_tag in tag.find_all():
-                if sub_tag.name == 'a':
-                    sub_tag.attrs = {'href': sub_tag.get('href'), 'target': '_blank', 'rel': 'nofollow'}
-                elif sub_tag.name == 'b':
+                if sub_tag.name in ('a', 'b'):
                     sub_tag.unwrap()
                 else:
                     sub_tag.attrs = {}
         elif tag.name == 'img':
             tag.attrs = {'src':  tag.get('src')}
+
+
+def remove_comment(tag: BeautifulSoup):
+    for comment in tag.find_all(string=lambda text: isinstance(text, Comment)):
+        comment.extract()
 
