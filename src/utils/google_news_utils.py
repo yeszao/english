@@ -78,7 +78,7 @@ def clean_attr(tags: list):
                     sub_tag.unwrap()
                 else:
                     sub_tag.attrs = {}
-        elif tag.name == 'img':
+        elif tag.name == 'img' and tag.get('src').startswith('http'):
             tag.attrs = {'src':  tag.get('src')}
 
 
