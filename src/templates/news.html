@@ -56,11 +56,6 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        initFontAndDarkButtons();
-        languageSelection();
-    });
-
     // Track scroll position and save progress when the user scrolls or leaves the page
     window.addEventListener('scroll', () => {
         saveReadingProgress(bookSlug, chapterNo, getFirstVisibleSentenceId());
